@@ -1,0 +1,11 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`index tests provides correct state 1`] = `
+<div>
+  <div
+    data-testid="state-container"
+  >
+    {"home":{},"session":{"user":{},"app":{},"isLoading":false},"dialog":{},"notifications":{"order":[]},"prompt":{},"api":{"queries":{},"mutations":{},"provided":{},"subscriptions":{},"config":{"online":true,"focused":true,"middlewareRegistered":false,"refetchOnFocus":false,"refetchOnReconnect":false,"refetchOnMountOrArgChange":false,"keepUnusedDataFor":60,"reducerPath":"api","invalidationBehavior":"delayed"}}}
+  </div>
+</div>
+`;

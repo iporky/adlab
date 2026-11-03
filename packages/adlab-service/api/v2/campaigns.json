@@ -1,0 +1,543 @@
+{
+  "swagger": "2.0",
+  "consumes": ["application/json", "application/x-www-form-urlencoded"],
+  "produces": ["application/json"],
+  "info": {
+    "title": "Campaigns API",
+    "description": "This API provides the ability to manage campaigns",
+    "version": "2.0"
+  },
+  "basePath": "/v2",
+  "schemes": ["http", "https"],
+  "parameters": {
+    "clientId": {
+      "name": "x-tfs-client-id",
+      "in": "header",
+      "required": true,
+      "type": "string",
+      "description": "The client identifier"
+    },
+    "accountId": {
+      "name": "x-tfs-account-id",
+      "in": "header",
+      "required": true,
+      "type": "string",
+      "description": "The account identifier"
+    },
+    "campaignId": {
+      "name": "campaignId",
+      "in": "path",
+      "required": true,
+      "type": "string",
+      "description": "The ID of the campaign"
+    },
+    "draftModeInQuery": {
+      "name": "draftMode",
+      "in": "query",
+      "required": false,
+      "type": "boolean",
+      "description": "Whether to operate in draft mode",
+      "default": false
+    }
+  },
+  "responses": {
+    "BadRequest": {
+      "description": "The request was invalid",
+      "schema": {
+        "$ref": "#/definitions/ErrorResponse"
+      }
+    },
+    "NotFound": {
+      "description": "The resource was not found",
+      "schema": {
+        "$ref": "#/definitions/ErrorResponse"
+      }
+    }
+  },
+  "paths": {
+    "/campaigns": {
+      "post": {
+        "summary": "Create a new campaign",
+        "operationId": "createCampaign",
+        "tags": ["Campaigns"],
+        "parameters": [
+          { "$ref": "#/parameters/clientId" },
+          { "$ref": "#/parameters/accountId" },
+          {
+            "name": "body",
+            "in": "body",
+            "description": "The campaign configuration to create",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/CampaignRequest"
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "The campaign was created successfully",
+            "schema": {
+              "$ref": "#/definitions/CampaignResponse"
+            }
+          },
+          "400": {
+            "$ref": "#/responses/BadRequest"
+          }
+        }
+      },
+      "get": {
+        "summary": "Retrieve all campaigns for a client",
+        "operationId": "getAllCampaignsForClient",
+        "tags": ["Campaigns"],
+        "parameters": [{ "$ref": "#/parameters/clientId" }, { "$ref": "#/parameters/accountId" }],
+        "responses": {
+          "200": {
+            "description": "A list of campaigns for the client",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "campaigns": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/definitions/CampaignResponse"
+                  }
+                },
+                "pagination": {
+                  "$ref": "#/definitions/PaginationResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/responses/BadRequest"
+          }
+        }
+      }
+    },
+    "/campaigns/{campaignId}": {
+      "get": {
+        "summary": "Retrieve a campaign by its ID",
+        "operationId": "getCampaignById",
+        "tags": ["Campaigns"],
+        "parameters": [
+          { "$ref": "#/parameters/clientId" },
+          { "$ref": "#/parameters/accountId" },
+          { "$ref": "#/parameters/campaignId" }
+        ],
+        "responses": {
+          "200": {
+            "description": "The campaign details",
+            "schema": {
+              "$ref": "#/definitions/CampaignResponse"
+            }
+          },
+          "400": {
+            "$ref": "#/responses/BadRequest"
+          },
+          "404": {
+            "$ref": "#/responses/NotFound"
+          }
+        }
+      },
+      "put": {
+        "summary": "Update a campaign by its ID",
+        "operationId": "updateCampaignById",
+        "tags": ["Campaigns"],
+        "parameters": [
+          { "$ref": "#/parameters/clientId" },
+          { "$ref": "#/parameters/accountId" },
+          { "$ref": "#/parameters/draftModeInQuery" },
+          { "$ref": "#/parameters/campaignId" },
+          {
+            "name": "body",
+            "in": "body",
+            "description": "The updated campaign configuration",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/CampaignRequest"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "The campaign was updated successfully",
+            "schema": {
+              "$ref": "#/definitions/CampaignResponse"
+            }
+          },
+          "400": {
+            "$ref": "#/responses/BadRequest"
+          },
+          "404": {
+            "$ref": "#/responses/NotFound"
+          }
+        }
+      },
+      "patch": {
+        "summary": "Partially update a campaign by its ID",
+        "operationId": "patchCampaignById",
+        "tags": ["Campaigns"],
+        "parameters": [
+          { "$ref": "#/parameters/clientId" },
+          { "$ref": "#/parameters/accountId" },
+          { "$ref": "#/parameters/draftModeInQuery" },
+          { "$ref": "#/parameters/campaignId" },
+          {
+            "name": "body",
+            "in": "body",
+            "description": "The partial campaign configuration to update",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/CampaignPatchRequest"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "The campaign was updated successfully",
+            "schema": {
+              "$ref": "#/definitions/CampaignResponse"
+            }
+          },
+          "400": {
+            "$ref": "#/responses/BadRequest"
+          },
+          "404": {
+            "$ref": "#/responses/NotFound"
+          }
+        }
+      },
+      "delete": {
+        "summary": "Delete a campaign by its ID",
+        "operationId": "deleteCampaignById",
+        "tags": ["Campaigns"],
+        "parameters": [
+          { "$ref": "#/parameters/clientId" },
+          { "$ref": "#/parameters/accountId" },
+          { "$ref": "#/parameters/draftModeInQuery" },
+          { "$ref": "#/parameters/campaignId" }
+        ],
+        "responses": {
+          "200": {
+            "description": "The campaign was deleted successfully"
+          },
+          "400": {
+            "$ref": "#/responses/BadRequest"
+          },
+          "404": {
+            "$ref": "#/responses/NotFound"
+          }
+        }
+      }
+    }
+  },
+  "definitions": {
+    "ErrorResponse": {
+      "type": "object",
+      "properties": {
+        "code": {
+          "type": "string",
+          "description": "A status code",
+          "example": "INVALID_REQUEST"
+        },
+        "reason": {
+          "type": "string",
+          "description": "A descriptive message",
+          "example": "Invalid campaign configuration"
+        }
+      },
+      "required": ["code", "reason"]
+    },
+    "BudgetRequest": {
+      "type": "object",
+      "properties": {
+        "budgetType": {
+          "type": "string",
+          "description": "The type of budget",
+          "example": "DAILY"
+        },
+        "amount": {
+          "type": "number",
+          "description": "The budget amount",
+          "example": 1000.0
+        },
+        "currency": {
+          "type": "string",
+          "description": "The budget currency",
+          "example": "USD"
+        },
+        "pacing": {
+          "type": "string",
+          "description": "The budget pacing strategy",
+          "example": "STANDARD"
+        }
+      },
+      "required": ["budgetType", "amount", "currency"]
+    },
+    "CampaignRequest": {
+      "type": "object",
+      "properties": {
+        "campaignName": {
+          "type": "string",
+          "description": "The name of the campaign",
+          "example": "Summer Sale 2024"
+        },
+        "description": {
+          "type": "string",
+          "description": "Campaign description",
+          "example": "Summer promotion for retail products"
+        },
+        "status": {
+          "type": "string",
+          "description": "Campaign status (see /campaigns/types/status for valid values)",
+          "example": "DRAFT"
+        },
+        "objective": {
+          "type": "string",
+          "description": "Campaign objective (see /campaigns/types/objectives for valid values)",
+          "example": "AWARENESS"
+        },
+        "startDate": {
+          "type": "string",
+          "format": "date-time",
+          "description": "Campaign start date",
+          "example": "2024-06-01T00:00:00Z"
+        },
+        "endDate": {
+          "type": "string",
+          "format": "date-time",
+          "description": "Campaign end date",
+          "example": "2024-06-30T23:59:59Z"
+        },
+        "budget": {
+          "$ref": "#/definitions/BudgetRequest"
+        },
+        "tags": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": "Campaign tags for organization",
+          "example": ["retail", "summer", "promotion"]
+        },
+        "goals": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "enum": [
+              "BRAND_AWARENESS",
+              "REACH",
+              "VIDEO_VIEWS",
+              "WEBSITE_TRAFFIC",
+              "PRODUCT_CONSIDERATION",
+              "APP_ENGAGEMENT",
+              "PAGE_ENGAGEMENT",
+              "APP_INSTALL",
+              "SALES",
+              "OFFLINE_CONVERSION",
+              "LEAD_GENERATION",
+              "PRODUCT_SALES",
+              "LOCAL_AWARENESS",
+              "MESSAGES"
+            ]
+          },
+          "description": "Campaign goals that align with the selected objective. Valid goals depend on the campaign objective:\n- AWARENESS: BRAND_AWARENESS, REACH, VIDEO_VIEWS\n- CONSIDERATION: WEBSITE_TRAFFIC, PRODUCT_CONSIDERATION, APP_ENGAGEMENT, VIDEO_VIEWS\n- CONVERSION: SALES, OFFLINE_CONVERSION, LEAD_GENERATION\n- APP_PROMOTION: APP_INSTALL, APP_ENGAGEMENT\n- CATALOG_SALES: PRODUCT_SALES\n- STORE_VISITS: LOCAL_AWARENESS, OFFLINE_CONVERSION\n- APP_RETENTION: APP_ENGAGEMENT\n- PRODUCT_DISCOVERY: PRODUCT_CONSIDERATION\n- MESSAGES: MESSAGES",
+          "example": ["BRAND_AWARENESS", "REACH"]
+        },
+        "campaignType": {
+          "type": "string",
+          "description": "Campaign type (see /campaigns/types/campaign-type for valid values)",
+          "example": "DISPLAY"
+        },
+        "campaignFormat": {
+          "type": "string",
+          "description": "Campaign format (see /campaigns/types/campaign-format for valid values)",
+          "example": "VIDEO"
+        },
+        "targetingIds": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": "List of targeting configuration IDs",
+          "example": ["507f1f77bcf86cd799439011", "507f1f77bcf86cd799439012"]
+        }
+      },
+      "required": ["campaignName", "startDate", "endDate", "campaignType", "campaignFormat"]
+    },
+    "CampaignPatchRequest": {
+      "type": "object",
+      "properties": {
+        "campaignName": {
+          "type": "string",
+          "description": "The name of the campaign",
+          "example": "Summer Sale 2024"
+        },
+        "description": {
+          "type": "string",
+          "description": "Campaign description",
+          "example": "Summer promotion for retail products"
+        },
+        "status": {
+          "type": "string",
+          "description": "Campaign status (see /campaigns/types/status for valid values)",
+          "example": "DRAFT"
+        },
+        "objective": {
+          "type": "string",
+          "description": "Campaign objective (see /campaigns/types/objectives for valid values)",
+          "example": "AWARENESS"
+        },
+        "startDate": {
+          "type": "string",
+          "format": "date-time",
+          "description": "Campaign start date",
+          "example": "2024-06-01T00:00:00Z"
+        },
+        "endDate": {
+          "type": "string",
+          "format": "date-time",
+          "description": "Campaign end date",
+          "example": "2024-06-30T23:59:59Z"
+        },
+        "budget": {
+          "$ref": "#/definitions/BudgetRequest"
+        },
+        "tags": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": "Campaign tags for organization",
+          "example": ["retail", "summer", "promotion"]
+        },
+        "goals": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "enum": [
+              "BRAND_AWARENESS",
+              "REACH",
+              "VIDEO_VIEWS",
+              "WEBSITE_TRAFFIC",
+              "PRODUCT_CONSIDERATION",
+              "APP_ENGAGEMENT",
+              "PAGE_ENGAGEMENT",
+              "APP_INSTALL",
+              "SALES",
+              "OFFLINE_CONVERSION",
+              "LEAD_GENERATION",
+              "PRODUCT_SALES",
+              "LOCAL_AWARENESS",
+              "MESSAGES"
+            ]
+          },
+          "description": "Campaign goals that align with the selected objective",
+          "example": ["BRAND_AWARENESS", "REACH"]
+        },
+        "campaignType": {
+          "type": "string",
+          "description": "Campaign type (see /campaigns/types/campaign-type for valid values)",
+          "example": "DISPLAY"
+        },
+        "campaignFormat": {
+          "type": "string",
+          "description": "Campaign format (see /campaigns/types/campaign-format for valid values)",
+          "example": "VIDEO"
+        },
+        "targetingIds": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": "List of targeting configuration IDs",
+          "example": ["507f1f77bcf86cd799439011", "507f1f77bcf86cd799439012"]
+        }
+      }
+    },
+    "CampaignResponse": {
+      "allOf": [
+        {
+          "$ref": "#/definitions/CampaignRequest"
+        },
+        {
+          "type": "object",
+          "properties": {
+            "_id": {
+              "type": "string",
+              "description": "The unique identifier for the campaign",
+              "example": "507f1f77bcf86cd799439011"
+            },
+            "platformCampaigns": {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "pattern": "^[0-9a-fA-F]{24}$"
+              },
+              "description": "List of platform-specific campaign IDs (MongoDB ObjectIds with PlatformCampaign references)",
+              "example": ["507f1f77bcf86cd799439011", "507f1f77bcf86cd799439012"]
+            },
+            "clientId": {
+              "type": "string",
+              "description": "The client identifier",
+              "example": "client_123"
+            },
+            "accountId": {
+              "type": "string",
+              "description": "The account identifier",
+              "example": "account_456"
+            },
+            "createdBy": {
+              "type": "string",
+              "description": "The ID of the user who created the campaign",
+              "example": "user_123"
+            },
+            "createdOn": {
+              "type": "string",
+              "format": "date-time",
+              "description": "The creation timestamp",
+              "example": "2024-03-20T10:00:00Z"
+            },
+            "updatedBy": {
+              "type": "string",
+              "description": "The ID of the user who last updated the campaign",
+              "example": "user_123"
+            },
+            "updatedOn": {
+              "type": "string",
+              "format": "date-time",
+              "description": "The last update timestamp",
+              "example": "2024-03-20T10:00:00Z"
+            }
+          },
+          "required": ["_id", "clientId", "accountId", "createdBy", "createdOn"]
+        }
+      ]
+    },
+    "PaginationResponse": {
+      "type": "object",
+      "properties": {
+        "total": {
+          "type": "integer",
+          "description": "Total number of items",
+          "example": 100
+        },
+        "page": {
+          "type": "integer",
+          "description": "Current page number",
+          "example": 1
+        },
+        "pageSize": {
+          "type": "integer",
+          "description": "Number of items per page",
+          "example": 20
+        },
+        "hasMore": {
+          "type": "boolean",
+          "description": "Whether there are more pages available",
+          "example": true
+        }
+      }
+    }
+  }
+}

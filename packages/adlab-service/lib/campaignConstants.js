@@ -1,0 +1,415 @@
+export const AVAILABLE_PLATFORMS = {
+  TARGET: 'TARGET',
+};
+
+export const CAMPAIGN_STATUS = {
+  DRAFT: 'DRAFT', // Initial creation state
+  PENDING: 'PENDING', // Awaiting approval
+  ACTIVE: 'ACTIVE', // Running and serving ads
+  PAUSED: 'PAUSED', // Temporarily stopped
+  COMPLETED: 'COMPLETED', // Finished (e.g., reached end date)
+  ARCHIVED: 'ARCHIVED', // Hidden from active view
+  REJECTED: 'REJECTED', // Failed review/approval process
+  SCHEDULED: 'SCHEDULED', // Approved but waiting for start date
+  DELETED: 'DELETED', // Permanently removed (some platforms track this)
+  ERROR: 'ERROR', // Failed due to technical issues
+  LIMITED: 'LIMITED', // Running with limitations (e.g., audience/budget restrictions)
+};
+
+export const CAMPAIGN_OBJECTIVE = {
+  AWARENESS: {
+    AWARENESS: 'AWARENESS',
+    BRAND_AWARENESS: 'BRAND_AWARENESS',
+    REACH: 'REACH',
+  },
+  CONSIDERATION: {
+    CONSIDERATION: 'CONSIDERATION',
+    TRAFFIC: 'TRAFFIC',
+    ENGAGEMENT: 'ENGAGEMENT',
+    APP_PROMOTION: 'APP_PROMOTION',
+    VIDEO_VIEWS: 'VIDEO_VIEWS',
+  },
+  CONVERSION: {
+    CONVERSION: 'CONVERSION',
+    APP_INSTALLS: 'APP_INSTALLS',
+    LEAD_GENERATION: 'LEAD_GENERATION',
+    SALES: 'SALES',
+    CATALOG_SALES: 'CATALOG_SALES',
+    STORE_VISITS: 'STORE_VISITS',
+  },
+  SPECIALIZED: {
+    MESSAGES: 'MESSAGES',
+    APP_RETENTION: 'APP_RETENTION',
+    PRODUCT_DISCOVERY: 'PRODUCT_DISCOVERY',
+  },
+};
+
+export const TARGET_METRICS = {
+  COST: {
+    COST_PER_CLICK: 'COST_PER_CLICK',
+    COST_PER_MILLE: 'COST_PER_MILLE',
+    COST_PER_ACQUISITION: 'COST_PER_ACQUISITION',
+    COST_PER_VIEW: 'COST_PER_VIEW',
+    COST_PER_ENGAGEMENT: 'COST_PER_ENGAGEMENT',
+    COST_PER_VISIT: 'COST_PER_VISIT',
+    COST_PER_COMPLETED_VIEW: 'COST_PER_COMPLETED_VIEW',
+    COST_PER_LEAD: 'COST_PER_LEAD',
+    COST_PER_MESSAGE: 'COST_PER_MESSAGE',
+    COST_PER_STORE_VISIT: 'COST_PER_STORE_VISIT',
+    COST_PER_UNIQUE_USER: 'COST_PER_UNIQUE_USER',
+  },
+  RETURN: {
+    RETURN_ON_AD_SPEND: 'RETURN_ON_AD_SPEND',
+    OFFLINE_RETURN: 'OFFLINE_RETURN',
+  },
+  RATE: {
+    CLICK_RATE: 'CLICK_RATE',
+    VIEWABILITY_RATE: 'VIEWABILITY_RATE',
+    CONVERSION_RATE: 'CONVERSION_RATE',
+    BOUNCE_RATE: 'BOUNCE_RATE',
+    ENGAGEMENT_RATE: 'ENGAGEMENT_RATE',
+    VIEW_COMPLETION_RATE: 'VIEW_COMPLETION_RATE',
+    INSTALL_RATE: 'INSTALL_RATE',
+    ADD_TO_CART_RATE: 'ADD_TO_CART_RATE',
+    PURCHASE_RATE: 'PURCHASE_RATE',
+    MESSAGE_RESPONSE_RATE: 'MESSAGE_RESPONSE_RATE',
+    VIDEO_PLAY_RATE: 'VIDEO_PLAY_RATE',
+    QUALIFIED_VIEW_RATE: 'QUALIFIED_VIEW_RATE',
+  },
+  VOLUME: {
+    IMPRESSIONS: 'IMPRESSIONS',
+    CLICKS: 'CLICKS',
+    CONVERSIONS: 'CONVERSIONS',
+    VIEWS: 'VIEWS',
+    REACH: 'REACH',
+    FREQUENCY: 'FREQUENCY',
+    LEAD_FORM_SUBMISSIONS: 'LEAD_FORM_SUBMISSIONS',
+    LANDING_PAGE_VIEWS: 'LANDING_PAGE_VIEWS',
+    PRODUCT_DETAIL_VIEWS: 'PRODUCT_DETAIL_VIEWS',
+    IN_APP_ACTIONS: 'IN_APP_ACTIONS',
+    STORE_VISITS: 'STORE_VISITS',
+    UNIQUE_CLICKS: 'UNIQUE_CLICKS',
+    NEW_VISITORS: 'NEW_VISITORS',
+    MESSAGE_CONVERSATIONS: 'MESSAGE_CONVERSATIONS',
+    PAGE_LIKES: 'PAGE_LIKES',
+    POST_REACTIONS: 'POST_REACTIONS',
+  },
+  VALUE: {
+    AVERAGE_ORDER_VALUE: 'AVERAGE_ORDER_VALUE',
+    LIFETIME_VALUE: 'LIFETIME_VALUE',
+    REVENUE: 'REVENUE',
+    PROFIT_MARGIN: 'PROFIT_MARGIN',
+    CONVERSION_VALUE: 'CONVERSION_VALUE',
+    CUSTOMER_ACQUISITION_COST: 'CUSTOMER_ACQUISITION_COST',
+  },
+  QUALITY: {
+    AD_RELEVANCE_SCORE: 'AD_RELEVANCE_SCORE',
+    QUALITY_SCORE: 'QUALITY_SCORE',
+    ATTENTION_METRICS: 'ATTENTION_METRICS',
+    BRAND_LIFT: 'BRAND_LIFT',
+  },
+};
+export const BUDGET = {
+  DAILY: 'DAILY', // Daily spending limit
+  LIFETIME: 'LIFETIME', // Total campaign limit
+  MONTHLY: 'MONTHLY', // Monthly spending limit
+  WEEKLY: 'WEEKLY', // Weekly spending limit
+  QUARTERLY: 'QUARTERLY', // 3-month spending limit
+  INSERTION_ORDER: 'INSERTION_ORDER', // IO budget (DV360)
+};
+
+export const BUDGET_PACING = {
+  STANDARD: 'STANDARD', // Balanced pacing
+  ACCELERATED: 'ACCELERATED', // Fast as possible
+  EVEN: 'EVEN', // Even distribution
+  CUSTOM: 'CUSTOM', // Custom rules
+  FRONT_LOADED: 'FRONT_LOADED', // Higher at start
+  BACK_LOADED: 'BACK_LOADED', // Higher at end
+  DAY_PARTING: 'DAY_PARTING', // Time-based
+};
+export const BUYING = {
+  AUCTION: 'AUCTION', // Real-time bidding
+  FIXED: 'FIXED', // Reserved inventory
+  REACH_AND_FREQUENCY: 'REACH_AND_FREQUENCY', // Predictable delivery
+  DIRECT_GUARANTEED: 'DIRECT_GUARANTEED', // Premium inventory
+};
+
+export const INVENTORY_SOURCE = {
+  DISPLAY: 'DISPLAY', // Standard display
+  VIDEO: 'VIDEO', // Video inventory
+  NATIVE: 'NATIVE', // Native placements
+  AUDIO: 'AUDIO', // Audio/streaming
+  CTV: 'CTV', // Connected TV
+  DOOH: 'DOOH', // Digital out-of-home
+  IN_STREAM: 'IN_STREAM', // In-stream video
+  STORIES: 'STORIES', // Social stories
+  FEED: 'FEED', // Social feeds
+  SEARCH: 'SEARCH', // Search results
+  MARKETPLACE: 'MARKETPLACE', // E-commerce
+};
+
+export const GOAL_TYPE = {
+  AWARENESS: {
+    BRAND_AWARENESS: 'BRAND_AWARENESS',
+    REACH: 'REACH',
+  },
+  TRAFFIC: {
+    WEBSITE_TRAFFIC: 'WEBSITE_TRAFFIC',
+  },
+  CONVERSION: {
+    SALES: 'SALES',
+    PRODUCT_SALES: 'PRODUCT_SALES',
+    LEAD_GENERATION: 'LEAD_GENERATION',
+    OFFLINE_CONVERSION: 'OFFLINE_CONVERSION',
+  },
+  APP: {
+    APP_INSTALL: 'APP_INSTALL',
+    APP_ENGAGEMENT: 'APP_ENGAGEMENT',
+    APP_RETENTION: 'APP_RETENTION',
+    APP_PRE_REGISTRATION: 'APP_PRE_REGISTRATION',
+  },
+  ENGAGEMENT: {
+    PAGE_ENGAGEMENT: 'PAGE_ENGAGEMENT',
+    VIDEO_VIEWS: 'VIDEO_VIEWS',
+    PRODUCT_CONSIDERATION: 'PRODUCT_CONSIDERATION',
+    LOCAL_AWARENESS: 'LOCAL_AWARENESS',
+    EVENT_RESPONSES: 'EVENT_RESPONSES',
+  },
+  COMMUNICATION: {
+    MESSAGES: 'MESSAGES',
+    CALL_CLICKS: 'CALL_CLICKS',
+  },
+  COMMUNITY: {
+    FOLLOWERS: 'FOLLOWERS',
+    COMMUNITY_INTERACTION: 'COMMUNITY_INTERACTION',
+  },
+  SPECIALIZED: {
+    AR_EXPERIENCES: 'AR_EXPERIENCES',
+    PROGRAMMATIC_GUARANTEED: 'PROGRAMMATIC_GUARANTEED',
+    AUDIENCE_TARGETING: 'AUDIENCE_TARGETING',
+  },
+};
+
+export const FREQUENCY_CAP_TIME_UNIT = {
+  HOUR: 'HOUR', // Per hour limits
+  DAY: 'DAY', // Per day limits
+  WEEK: 'WEEK', // Per week limits
+  MONTH: 'MONTH', // Per month limits
+  CAMPAIGN: 'CAMPAIGN', // Campaign lifetime
+  CUSTOM: 'CUSTOM', // Custom periods
+};
+
+export const FREQUENCY_CAP_LEVEL = {
+  CAMPAIGN: 'CAMPAIGN', // Campaign level
+  AD_GROUP: 'AD_GROUP', // Ad group level
+  CREATIVE: 'CREATIVE', // Creative level
+  LINE_ITEM: 'LINE_ITEM', // Line item level
+  INSERTION_ORDER: 'INSERTION_ORDER', // IO level
+  ADVERTISER: 'ADVERTISER', // Advertiser level
+};
+
+export const VIEWABILITY_STANDARD = {
+  MRC: 'MRC', // Media Rating Council
+  IAB: 'IAB', // Interactive Advertising Bureau
+  MOAT: 'MOAT', // Oracle MOAT
+  DV: 'DV', // DoubleVerify
+  IAS: 'IAS', // Integral Ad Science
+  GOOGLE: 'GOOGLE', // Google Active View
+  PLATFORM: 'PLATFORM', // Platform-specific
+  CUSTOM: 'CUSTOM', // Custom definition
+};
+
+export const DELIVERY_METHOD = {
+  STANDARD: 'STANDARD', // Balanced delivery
+  ACCELERATED: 'ACCELERATED', // Fast delivery
+  DAYPARTED: 'DAYPARTED', // Time-based
+  OPTIMIZED: 'OPTIMIZED', // Platform-optimized
+  SCHEDULED: 'SCHEDULED', // Custom schedule
+};
+export const CURRENCY = {
+  GLOBAL: {
+    USD: 'USD', // United States Dollar
+    EUR: 'EUR', // Euro
+    GBP: 'GBP', // British Pound
+    JPY: 'JPY', // Japanese Yen
+  },
+  AMERICAS: {
+    CAD: 'CAD', // Canadian Dollar
+    MXN: 'MXN', // Mexican Peso
+    BRL: 'BRL', // Brazilian Real
+  },
+  APAC: {
+    AUD: 'AUD', // Australian Dollar
+    CNY: 'CNY', // Chinese Yuan
+    HKD: 'HKD', // Hong Kong Dollar
+    SGD: 'SGD', // Singapore Dollar
+    KRW: 'KRW', // South Korean Won
+    INR: 'INR', // Indian Rupee
+    NZD: 'NZD', // New Zealand Dollar
+  },
+  EUROPE: {
+    CHF: 'CHF', // Swiss Franc
+    SEK: 'SEK', // Swedish Krona
+    NOK: 'NOK', // Norwegian Krone
+  },
+  OTHER: {
+    RUB: 'RUB', // Russian Ruble
+    ZAR: 'ZAR', // South African Rand
+    TRY: 'TRY', // Turkish Lira
+  },
+};
+
+export const OPTIMIZATION_GOAL = {
+  CLICK: {
+    CLICK: 'CLICK',
+    CLICKS: 'CLICKS',
+    LINK_CLICKS: 'LINK_CLICKS',
+    OUTBOUND_CLICKS: 'OUTBOUND_CLICKS',
+  },
+  IMPRESSION: {
+    IMPRESSION: 'IMPRESSION',
+    IMPRESSIONS: 'IMPRESSIONS',
+    VIEWABILITY: 'VIEWABILITY',
+    REACH: 'REACH',
+    IMPRESSION_SHARE: 'IMPRESSION_SHARE',
+    TARGET_OUTRANKING_SHARE: 'TARGET_OUTRANKING_SHARE',
+  },
+  CONVERSION: {
+    CONVERSION: 'CONVERSION',
+    CONVERSIONS: 'CONVERSIONS',
+    VIEW_THROUGH_CONVERSIONS: 'VIEW_THROUGH_CONVERSIONS',
+    CONVERSION_RATE: 'CONVERSION_RATE',
+    MINIMIZE_COST_PER_RESULT: 'MINIMIZE_COST_PER_RESULT',
+  },
+  VALUE: {
+    VALUE: 'VALUE',
+    RETURN_ON_AD_SPEND: 'RETURN_ON_AD_SPEND',
+  },
+  ENGAGEMENT: {
+    ENGAGEMENT: 'ENGAGEMENT',
+    POST_ENGAGEMENT: 'POST_ENGAGEMENT',
+    QUALITY_RANKING: 'QUALITY_RANKING',
+  },
+  VIEW: {
+    VIEW: 'VIEW',
+    VIDEO_VIEWS: 'VIDEO_VIEWS',
+    VIDEO_COMPLETIONS: 'VIDEO_COMPLETIONS',
+  },
+  PAGE: {
+    PAGE: 'PAGE',
+    LANDING_PAGE_VIEWS: 'LANDING_PAGE_VIEWS',
+  },
+  APP: {
+    APP: 'APP',
+    APP_INSTALLS: 'APP_INSTALLS',
+    APP_EVENTS: 'APP_EVENTS',
+  },
+  LEAD: {
+    LEAD: 'LEAD',
+    LEADS: 'LEADS',
+  },
+  LOCATION: {
+    LOCATION: 'LOCATION',
+    STORE_VISITS: 'STORE_VISITS',
+  },
+  PLATFORM: {
+    PLATFORM: 'PLATFORM',
+    STORY_OPENS: 'STORY_OPENS',
+    SWIPE_UPS: 'SWIPE_UPS',
+    CUSTOM_ALGORITHM: 'CUSTOM_ALGORITHM',
+  },
+  SPEND: {
+    SPEND: 'SPEND',
+    TARGET_SPEND: 'TARGET_SPEND',
+  },
+};
+
+export const BIDDING_STRATEGY = {
+  MANUAL: {
+    MANUAL_CPC: 'MANUAL_CPC',
+    MANUAL_CPM: 'MANUAL_CPM',
+    MANUAL_CPV: 'MANUAL_CPV',
+    MANUAL_CPA: 'MANUAL_CPA',
+  },
+  AUTO: {
+    AUTO_OPTIMIZE: 'AUTO_OPTIMIZE',
+    LOWEST_COST: 'LOWEST_COST',
+    EFFICIENT_CPM: 'EFFICIENT_CPM',
+  },
+  TARGET: {
+    TARGET_CPA: 'TARGET_CPA',
+    TARGET_ROAS: 'TARGET_ROAS',
+    TARGET_CPM: 'TARGET_CPM',
+    TARGET_IMPRESSION_SHARE: 'TARGET_IMPRESSION_SHARE',
+  },
+  MAXIMIZE: {
+    MAXIMIZE_CONVERSIONS: 'MAXIMIZE_CONVERSIONS',
+    MAXIMIZE_CONVERSION_VALUE: 'MAXIMIZE_CONVERSION_VALUE',
+    MAXIMIZE_CLICKS: 'MAXIMIZE_CLICKS',
+  },
+  SPECIALIZED: {
+    VIEWABLE_CPM: 'VIEWABLE_CPM',
+    ENHANCED_CPC: 'ENHANCED_CPC',
+    TARGET_OUTRANK_SHARE: 'TARGET_OUTRANK_SHARE',
+  },
+};
+
+export const CAMPAIGN_GOALS = {
+  AWARENESS: ['BRAND_AWARENESS', 'REACH', 'VIDEO_VIEWS'],
+  BRAND_AWARENESS: ['BRAND_AWARENESS'],
+  REACH: ['REACH'],
+  CONSIDERATION: ['WEBSITE_TRAFFIC', 'PRODUCT_CONSIDERATION', 'APP_ENGAGEMENT', 'VIDEO_VIEWS'],
+  TRAFFIC: ['WEBSITE_TRAFFIC'],
+  ENGAGEMENT: ['APP_ENGAGEMENT', 'PRODUCT_CONSIDERATION', 'PAGE_ENGAGEMENT'],
+  APP_PROMOTION: ['APP_INSTALL', 'APP_ENGAGEMENT'],
+  VIDEO_VIEWS: ['VIDEO_VIEWS'],
+  CONVERSION: ['SALES', 'OFFLINE_CONVERSION', 'LEAD_GENERATION'],
+  APP_INSTALLS: ['APP_INSTALL'],
+  LEAD_GENERATION: ['LEAD_GENERATION'],
+  SALES: ['SALES'],
+  CATALOG_SALES: ['PRODUCT_SALES'],
+  STORE_VISITS: ['LOCAL_AWARENESS', 'OFFLINE_CONVERSION'],
+  APP_RETENTION: ['APP_ENGAGEMENT'],
+  PRODUCT_DISCOVERY: ['PRODUCT_CONSIDERATION'],
+  MESSAGES: ['MESSAGES'],
+};
+// Campaign types
+export const CAMPAIGN_TYPES = {
+  VIDEO: 'VIDEO',
+  DISPLAY: 'DISPLAY',
+  SOCIAL: 'SOCIAL',
+  SEARCH: 'SEARCH',
+  PROGRAMMATIC: 'PROGRAMMATIC',
+  EMAIL_SMS: 'EMAIL_SMS',
+};
+
+// Campaign formats
+export const CAMPAIGN_FORMATS = {
+  DISPLAY: 'DISPLAY',
+  VIDEO: 'VIDEO',
+  CONVO_ADS: 'CONVO_ADS',
+  FORMAT_4: 'FORMAT_4',
+};
+export const campaignConstantsMapping = {
+  status: CAMPAIGN_STATUS,
+  objectives: CAMPAIGN_OBJECTIVE,
+  target_metrics: TARGET_METRICS,
+  budget_type: BUDGET,
+  budget_pacing: BUDGET_PACING,
+  buying: BUYING,
+  inventory_source: INVENTORY_SOURCE,
+  goal_type: GOAL_TYPE,
+  frequency_cap_time_unit: FREQUENCY_CAP_TIME_UNIT,
+  frequency_cap_level: FREQUENCY_CAP_LEVEL,
+  viewability_standard: VIEWABILITY_STANDARD,
+  delivery_method: DELIVERY_METHOD,
+  currency: CURRENCY,
+  optimization_goal: OPTIMIZATION_GOAL,
+  bidding_strategy: BIDDING_STRATEGY,
+  campaign_type: CAMPAIGN_TYPES,
+  campaign_format: CAMPAIGN_FORMATS,
+};
+
+export const DEFAULT_CAMPAIGN_TYPE = 'all';
+
+export const AVAILABLE_CAMPAIGN_TYPES = Object.keys(campaignConstantsMapping);

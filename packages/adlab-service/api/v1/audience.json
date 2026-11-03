@@ -1,0 +1,153 @@
+{
+  "swagger": "2.0",
+  "consumes": ["application/json", "application/x-www-form-urlencoded"],
+  "produces": ["application/json"],
+  "info": {
+    "title": "audience",
+    "description": "This API provides the ability to retrieve a saved audience list",
+    "version": "1.0"
+  },
+  "basePath": "/v1",
+  "schemes": ["http", "https"],
+  "responses": {
+    "BadRequest": {
+      "description": "The request was invalid. For example, the value of the initial parameter was invalid",
+      "schema": {
+        "type": "string"
+      }
+    },
+    "NotFound": {
+      "description": "The resource was not found",
+      "schema": {
+        "type": "string"
+      }
+    }
+  },
+  "paths": {
+    "/savedAudience": {
+      "post": {
+        "summary": "Saves an audience",
+        "operationId": "createSavedAudience",
+        "parameters": [
+          {
+            "$ref": "#/parameters/clientId"
+          },
+          {
+            "$ref": "#/parameters/accountId"
+          },
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "type": "object",
+              "properties": {}
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "The audience was saved"
+          },
+          "400": {
+            "$ref": "#/responses/BadRequest"
+          }
+        }
+      },
+      "get": {
+        "summary": "Retrieves the paginated list of saved audience",
+        "operationId": "getSavedAudienceList",
+        "parameters": [
+          {
+            "$ref": "#/parameters/clientId"
+          },
+          {
+            "$ref": "#/parameters/accountId"
+          },
+          {
+            "name": "savedAudienceIds",
+            "in": "query",
+            "description": "A list of Saved Audience IDs to retrieve",
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "minItems": 1,
+            "maxItems": 100
+          },
+          {
+            "name": "page",
+            "in": "query",
+            "description": "The page number to retrieve",
+            "required": true,
+            "type": "integer",
+            "minimum": 1
+          },
+          {
+            "name": "pageSize",
+            "in": "query",
+            "description": "The number of items to retrieve per page",
+            "required": true,
+            "type": "integer",
+            "minItems": 1,
+            "maxItems": 100
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "The saved audience list"
+          },
+          "400": {
+            "$ref": "#/responses/BadRequest"
+          },
+          "404": {
+            "$ref": "#/responses/NotFound"
+          }
+        }
+      },
+      "delete": {
+        "summary": "Deletes a saved audience",
+        "operationId": "deleteSavedAudience",
+        "parameters": [
+          {
+            "$ref": "#/parameters/clientId"
+          },
+          {
+            "$ref": "#/parameters/accountId"
+          },
+          {
+            "name": "savedAudienceId",
+            "in": "query",
+            "description": "The ID of the audience to delete",
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "The audience was deleted"
+          },
+          "400": {
+            "$ref": "#/responses/BadRequest"
+          },
+          "404": {
+            "$ref": "#/responses/NotFound"
+          }
+        }
+      }
+    }
+  },
+  "definitions": {
+    "ErrorResponse": {
+      "properties": {
+        "code": {
+          "description": "A status code",
+          "type": "string"
+        },
+        "reason": {
+          "description": "A descriptive message",
+          "type": "string"
+        }
+      }
+    }
+  }
+}

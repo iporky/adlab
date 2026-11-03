@@ -1,0 +1,565 @@
+{
+  "swagger": "2.0",
+  "consumes": ["application/json", "application/x-www-form-urlencoded"],
+  "produces": ["application/json"],
+  "info": {
+    "title": "Targeting Types API",
+    "description": "This API provides the ability to get targeting types and configurations",
+    "version": "2.0"
+  },
+  "basePath": "/v2",
+  "schemes": ["http", "https"],
+  "parameters": {
+    "clientId": {
+      "name": "x-tfs-client-id",
+      "in": "header",
+      "required": true,
+      "type": "string",
+      "description": "The client identifier"
+    },
+    "accountId": {
+      "name": "x-tfs-account-id",
+      "in": "header",
+      "required": true,
+      "type": "string",
+      "description": "The account identifier"
+    },
+    "targetingType": {
+      "name": "targetingType",
+      "in": "path",
+      "required": true,
+      "type": "string",
+      "description": "The type of targeting",
+      "enum": ["audience", "device", "content", "placement", "timing", "age", "languages"]
+    }
+  },
+  "responses": {
+    "BadRequest": {
+      "description": "The request was invalid. For example, the value of the initial parameter was invalid",
+      "schema": {
+        "type": "object",
+        "properties": {
+          "code": {
+            "type": "string",
+            "description": "A status code",
+            "example": "INVALID_REQUEST"
+          },
+          "reason": {
+            "type": "string",
+            "description": "A descriptive message",
+            "example": "Invalid targeting type specified"
+          }
+        },
+        "required": ["code", "reason"]
+      }
+    },
+    "NotFound": {
+      "description": "The resource was not found",
+      "schema": {
+        "type": "object",
+        "properties": {
+          "code": {
+            "type": "string",
+            "description": "A status code",
+            "example": "NOT_FOUND"
+          },
+          "reason": {
+            "type": "string",
+            "description": "A descriptive message",
+            "example": "Targeting type not found"
+          }
+        },
+        "required": ["code", "reason"]
+      }
+    }
+  },
+  "paths": {
+    "/campaigns/targetings/types/{targetingType}": {
+      "get": {
+        "summary": "Retrieves all targeting types",
+        "operationId": "getTargetingsForType",
+        "tags": ["Targeting Types"],
+        "parameters": [
+          { "$ref": "#/parameters/clientId" },
+          { "$ref": "#/parameters/accountId" },
+          { "$ref": "#/parameters/targetingType" }
+        ],
+        "responses": {
+          "200": {
+            "description": "List of all targeting types",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "targetingTypes": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "id": {
+                        "type": "string",
+                        "description": "The targeting type identifier",
+                        "example": "AUDIENCE"
+                      },
+                      "name": {
+                        "type": "string",
+                        "description": "Display name of the targeting type",
+                        "example": "Audience Targeting"
+                      },
+                      "description": {
+                        "type": "string",
+                        "description": "Description of the targeting type",
+                        "example": "Target specific audience segments based on demographics, interests, and behaviors"
+                      },
+                      "options": {
+                        "type": "array",
+                        "items": {
+                          "type": "string"
+                        },
+                        "description": "Available options for this targeting type",
+                        "example": ["AGE", "GENDER", "INTERESTS", "BEHAVIORS"]
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/responses/BadRequest"
+          }
+        }
+      }
+    },
+    "/campaigns/targetings/types/audience": {
+      "get": {
+        "summary": "Retrieves audience targeting options",
+        "operationId": "getAudienceTargeting",
+        "tags": ["Targeting Types"],
+        "parameters": [{ "$ref": "#/parameters/clientId" }, { "$ref": "#/parameters/accountId" }],
+        "responses": {
+          "200": {
+            "description": "Audience targeting options",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "audienceTypes": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "id": {
+                        "type": "string",
+                        "description": "The audience type identifier",
+                        "example": "DEMOGRAPHICS"
+                      },
+                      "name": {
+                        "type": "string",
+                        "description": "Display name of the audience type",
+                        "example": "Demographics"
+                      },
+                      "options": {
+                        "type": "array",
+                        "items": {
+                          "type": "object",
+                          "properties": {
+                            "id": {
+                              "type": "string",
+                              "example": "AGE_RANGE"
+                            },
+                            "name": {
+                              "type": "string",
+                              "example": "Age Range"
+                            },
+                            "values": {
+                              "type": "array",
+                              "items": {
+                                "type": "string"
+                              },
+                              "example": ["18-24", "25-34", "35-44", "45-54", "55+"]
+                            }
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/responses/BadRequest"
+          }
+        }
+      }
+    },
+    "/campaigns/targetings/types/device": {
+      "get": {
+        "summary": "Retrieves device targeting options",
+        "operationId": "getDeviceTargeting",
+        "tags": ["Targeting Types"],
+        "parameters": [{ "$ref": "#/parameters/clientId" }, { "$ref": "#/parameters/accountId" }],
+        "responses": {
+          "200": {
+            "description": "Device targeting options",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "deviceTypes": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "id": {
+                        "type": "string",
+                        "description": "The device type identifier",
+                        "example": "MOBILE"
+                      },
+                      "name": {
+                        "type": "string",
+                        "description": "Display name of the device type",
+                        "example": "Mobile Devices"
+                      },
+                      "options": {
+                        "type": "array",
+                        "items": {
+                          "type": "object",
+                          "properties": {
+                            "id": {
+                              "type": "string",
+                              "example": "OS_TYPE"
+                            },
+                            "name": {
+                              "type": "string",
+                              "example": "Operating System"
+                            },
+                            "values": {
+                              "type": "array",
+                              "items": {
+                                "type": "string"
+                              },
+                              "example": ["iOS", "Android", "Windows"]
+                            }
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/responses/BadRequest"
+          }
+        }
+      }
+    },
+    "/campaigns/targetings/types/content": {
+      "get": {
+        "summary": "Retrieves content targeting options",
+        "operationId": "getContentTargeting",
+        "tags": ["Targeting Types"],
+        "parameters": [{ "$ref": "#/parameters/clientId" }, { "$ref": "#/parameters/accountId" }],
+        "responses": {
+          "200": {
+            "description": "Content targeting options",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "contentTypes": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "id": {
+                        "type": "string",
+                        "description": "The content type identifier",
+                        "example": "CATEGORY"
+                      },
+                      "name": {
+                        "type": "string",
+                        "description": "Display name of the content type",
+                        "example": "Content Category"
+                      },
+                      "options": {
+                        "type": "array",
+                        "items": {
+                          "type": "object",
+                          "properties": {
+                            "id": {
+                              "type": "string",
+                              "example": "ENTERTAINMENT"
+                            },
+                            "name": {
+                              "type": "string",
+                              "example": "Entertainment"
+                            },
+                            "subcategories": {
+                              "type": "array",
+                              "items": {
+                                "type": "string"
+                              },
+                              "example": ["Movies", "Music", "Gaming"]
+                            }
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/responses/BadRequest"
+          }
+        }
+      }
+    },
+    "/campaigns/targetings/types/placement": {
+      "get": {
+        "summary": "Retrieves placement targeting options",
+        "operationId": "getPlacementTargeting",
+        "tags": ["Targeting Types"],
+        "parameters": [{ "$ref": "#/parameters/clientId" }, { "$ref": "#/parameters/accountId" }],
+        "responses": {
+          "200": {
+            "description": "Placement targeting options",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "placementTypes": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "id": {
+                        "type": "string",
+                        "description": "The placement type identifier",
+                        "example": "FEED"
+                      },
+                      "name": {
+                        "type": "string",
+                        "description": "Display name of the placement type",
+                        "example": "News Feed"
+                      },
+                      "options": {
+                        "type": "array",
+                        "items": {
+                          "type": "object",
+                          "properties": {
+                            "id": {
+                              "type": "string",
+                              "example": "POSITION"
+                            },
+                            "name": {
+                              "type": "string",
+                              "example": "Position"
+                            },
+                            "values": {
+                              "type": "array",
+                              "items": {
+                                "type": "string"
+                              },
+                              "example": ["TOP", "MIDDLE", "BOTTOM"]
+                            }
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/responses/BadRequest"
+          }
+        }
+      }
+    },
+    "/campaigns/targetings/types/timing": {
+      "get": {
+        "summary": "Retrieves timing targeting options",
+        "operationId": "getTimingTargeting",
+        "tags": ["Targeting Types"],
+        "parameters": [{ "$ref": "#/parameters/clientId" }, { "$ref": "#/parameters/accountId" }],
+        "responses": {
+          "200": {
+            "description": "Timing targeting options",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "timingTypes": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "id": {
+                        "type": "string",
+                        "description": "The timing type identifier",
+                        "example": "DAYPARTING"
+                      },
+                      "name": {
+                        "type": "string",
+                        "description": "Display name of the timing type",
+                        "example": "Day Parting"
+                      },
+                      "options": {
+                        "type": "array",
+                        "items": {
+                          "type": "object",
+                          "properties": {
+                            "id": {
+                              "type": "string",
+                              "example": "WEEKDAY"
+                            },
+                            "name": {
+                              "type": "string",
+                              "example": "Weekday Hours"
+                            },
+                            "timeRanges": {
+                              "type": "array",
+                              "items": {
+                                "type": "string"
+                              },
+                              "example": ["09:00-17:00", "18:00-22:00"]
+                            }
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/responses/BadRequest"
+          }
+        }
+      }
+    },
+    "/campaigns/targetings/types/age": {
+      "get": {
+        "summary": "Retrieves age targeting options",
+        "operationId": "getAgeTargeting",
+        "tags": ["Targeting Types"],
+        "parameters": [{ "$ref": "#/parameters/clientId" }, { "$ref": "#/parameters/accountId" }],
+        "responses": {
+          "200": {
+            "description": "Age targeting options",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "ageRanges": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "id": {
+                        "type": "string",
+                        "description": "The age range identifier",
+                        "example": "18_24"
+                      },
+                      "name": {
+                        "type": "string",
+                        "description": "Display name of the age range",
+                        "example": "18-24 years"
+                      },
+                      "range": {
+                        "type": "object",
+                        "properties": {
+                          "min": {
+                            "type": "integer",
+                            "example": 18
+                          },
+                          "max": {
+                            "type": "integer",
+                            "example": 24
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/responses/BadRequest"
+          }
+        }
+      }
+    },
+    "/campaigns/targetings/types/languages": {
+      "get": {
+        "summary": "Retrieves language targeting options",
+        "operationId": "getLanguageTargeting",
+        "tags": ["Targeting Types"],
+        "parameters": [{ "$ref": "#/parameters/clientId" }, { "$ref": "#/parameters/accountId" }],
+        "responses": {
+          "200": {
+            "description": "Language targeting options",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "languages": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "id": {
+                        "type": "string",
+                        "description": "The language code",
+                        "example": "en"
+                      },
+                      "name": {
+                        "type": "string",
+                        "description": "Display name of the language",
+                        "example": "English"
+                      },
+                      "variants": {
+                        "type": "array",
+                        "items": {
+                          "type": "object",
+                          "properties": {
+                            "id": {
+                              "type": "string",
+                              "example": "en-US"
+                            },
+                            "name": {
+                              "type": "string",
+                              "example": "English (United States)"
+                            }
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/responses/BadRequest"
+          }
+        }
+      }
+    }
+  },
+  "definitions": {
+    "ErrorResponse": {
+      "properties": {
+        "code": {
+          "description": "A status code",
+          "type": "string"
+        },
+        "reason": {
+          "description": "A descriptive message",
+          "type": "string"
+        }
+      }
+    }
+  }
+}

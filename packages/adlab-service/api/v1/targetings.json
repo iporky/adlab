@@ -1,0 +1,78 @@
+{
+  "swagger": "2.0",
+  "consumes": ["application/json", "application/x-www-form-urlencoded"],
+  "produces": ["application/json"],
+  "info": {
+    "title": "targetings",
+    "description": "This API provides the ability to retrieve a user's campaign list",
+    "version": "1.0"
+  },
+  "basePath": "/v1",
+  "schemes": ["http", "https"],
+  "responses": {
+    "BadRequest": {
+      "description": "The request was invalid. For example, the value of the initial parameter was invalid",
+      "schema": {
+        "type": "string"
+      }
+    },
+    "NotFound": {
+      "description": "The resource was not found",
+      "schema": {
+        "type": "string"
+      }
+    }
+  },
+  "paths": {
+    "/targetings": {
+      "post": {
+        "summary": "Retrieves the user's campaign list",
+        "operationId": "getTargetingOptions",
+        "parameters": [
+          {
+            "$ref": "#/parameters/clientId"
+          },
+          {
+            "$ref": "#/parameters/accountId"
+          },
+          {
+            "$ref": "#/parameters/platformInQuery"
+          },
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "type": "object"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "The campaign list"
+          },
+          "400": {
+            "$ref": "#/responses/BadRequest"
+          },
+          "404": {
+            "$ref": "#/responses/NotFound"
+          }
+        }
+      }
+    }
+  },
+  "definitions": {
+    "ErrorResponse": {
+      "properties": {
+        "code": {
+          "description": "A status code",
+          "type": "string"
+        },
+        "reason": {
+          "description": "A descriptive message",
+          "type": "string"
+        }
+      }
+    }
+  }
+}

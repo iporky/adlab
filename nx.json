@@ -1,0 +1,44 @@
+{
+  "npmScope": "workspace",
+  "projects": {
+    "adlab-ui": {
+      "tags": ["scope:adlab-ui"],
+      "implicitDependencies": ["adlab-shared"]
+    },
+    "adlab-service": {
+      "tags": ["scope:adlab-service"],
+      "implicitDependencies": ["adlab-shared", "adlab-adapters"]
+    },
+    "adlab-adapters": {
+      "tags": ["scope:adlab-adapters"],
+      "implicitDependencies": ["adlab-shared"]
+    },
+    "adlab-shared": {
+      "tags": ["scope:shared"]
+    }
+  },
+  "targetDependencies": {
+    "build": [
+      {
+        "sourceTag": "scope:adlab-ui",
+        "onlyDependOnLibsWithTags": ["scope:adlab-ui", "scope:shared"]
+      },
+      {
+        "sourceTag": "scope:adlab-service",
+        "onlyDependOnLibsWithTags": ["scope:adlab-service", "scope:shared", "scope:adlab-adapters"]
+      },
+      {
+        "sourceTag": "scope:adlab-adapters",
+        "onlyDependOnLibsWithTags": ["scope:adlab-adapters", "scope:shared"]
+      }
+    ]
+  },
+  "tasksRunnerOptions": {
+    "default": {
+      "runner": "nx/tasks-runners/default",
+      "options": {
+        "cacheableOperations": ["build", "lint", "test", "e2e"]
+      }
+    }
+  }
+}

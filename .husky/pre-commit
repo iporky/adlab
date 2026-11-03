@@ -1,0 +1,8 @@
+#!/bin/sh
+if [ -f ./tech-debt.txt ]; then
+  echo "ATTENTION:"
+  printf "\033[38;5;214m%s\033[0m\n" "$(cat ./tech-debt.txt)"
+  echo
+else
+  echo "No tech debts file found."
+fi

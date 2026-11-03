@@ -1,0 +1,85 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`App renders without crashing 1`] = `
+<div>
+  <div
+    data-testid="security"
+  >
+    <div
+      class="app"
+    >
+      <div>
+        LoginCallback
+      </div>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`App renders without crashing 2`] = `
+<div>
+  <div
+    data-testid="security"
+  >
+    <div
+      class="app"
+    >
+      <div
+        data-testid="error-boundary"
+      >
+        <div
+          data-testid="secure-route"
+        >
+          <div
+            data-testid="layout"
+          >
+            <div
+              data-testid="error-boundary"
+            >
+              <div
+                data-testid="home"
+              >
+                Home
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`App renders without crashing 3`] = `
+<div>
+  <div
+    data-testid="security"
+  >
+    <div
+      class="app"
+    >
+      <div
+        data-testid="error-boundary"
+      >
+        <div
+          data-testid="secure-route"
+        >
+          <div
+            data-testid="layout"
+          >
+            <div
+              data-testid="error-boundary"
+            >
+              <div
+                data-testid="democenter"
+              >
+                DemoCenter
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+`;

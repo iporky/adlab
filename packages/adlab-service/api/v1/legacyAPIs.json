@@ -1,0 +1,551 @@
+{
+  "swagger": "2.0",
+  "consumes": ["application/json", "application/x-www-form-urlencoded"],
+  "produces": ["application/json"],
+  "info": {
+    "title": "adsV2",
+    "description": "This API provides the ability to post advertisements to social platforms",
+    "version": "1.0"
+  },
+  "basePath": "/v1",
+  "schemes": ["http", "https"],
+  "responses": {
+    "BadRequest": {
+      "description": "The request was invalid. For example, the value of the initial parameter was invalid",
+      "schema": {
+        "type": "string"
+      }
+    },
+    "NotFound": {
+      "description": "The resource was not found",
+      "schema": {
+        "type": "string"
+      }
+    }
+  },
+  "paths": {
+    "/campaigns": {
+      "post": {
+        "summary": "Publish advertisements to social platforms",
+        "operationId": "createCampaign",
+        "parameters": [
+          {
+            "$ref": "#/parameters/clientId"
+          },
+          {
+            "$ref": "#/parameters/accountId"
+          },
+          {
+            "$ref": "#/parameters/userId"
+          },
+          {
+            "$ref": "#/parameters/draftModeInQuery"
+          },
+          {
+            "name": "body",
+            "in": "body",
+            "description": "The platform and list of advertisements to post",
+            "required": true,
+            "schema": {
+              "type": "object",
+              "properties": {
+                "platform": {
+                  "$ref": "#/definitions/PlatformEnum",
+                  "description": "The name of the platform to post the advertisements to"
+                },
+                "campaign": {
+                  "type": "object",
+                  "description": "Campaign information for the advertisements"
+                },
+                "campaignDate": {
+                  "type": "object",
+                  "description": "Campaign duration information for the advertisements"
+                },
+                "targeting": {
+                  "type": "object",
+                  "description": "Campaign duration information for the advertisements"
+                },
+                "budget": {
+                  "type": "string",
+                  "description": "Campaign duration information for the advertisements"
+                },
+                "personalizedCreatives": {
+                  "type": "array",
+                  "items": {
+                    "type": "object"
+                  },
+                  "description": "The list of ad sets and advertisements to post"
+                },
+                "formData": {
+                  "type": "string",
+                  "description": "The form data for the campaign"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "The campaign was created"
+          },
+          "400": {
+            "$ref": "#/responses/BadRequest"
+          }
+        }
+      },
+      "get": {
+        "summary": "Retrieves the client's campaign list",
+        "operationId": "getAllCampaignsForClient",
+        "parameters": [
+          {
+            "$ref": "#/parameters/clientId"
+          },
+          {
+            "$ref": "#/parameters/accountId"
+          },
+          {
+            "$ref": "#/parameters/platformInQuery"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "The campaign list"
+          },
+          "400": {
+            "$ref": "#/responses/BadRequest"
+          },
+          "404": {
+            "$ref": "#/responses/NotFound"
+          }
+        }
+      }
+    },
+    "/campaigns/{campaignId}": {
+      "get": {
+        "summary": "Retrieves a campaign by ID",
+        "operationId": "getCampaignById",
+        "parameters": [
+          {
+            "$ref": "#/parameters/clientId"
+          },
+          {
+            "$ref": "#/parameters/accountId"
+          },
+          {
+            "name": "campaignId",
+            "in": "path",
+            "required": true,
+            "type": "string",
+            "description": "The ID of the campaign to retrieve"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "The campaign details"
+          },
+          "400": {
+            "$ref": "#/responses/BadRequest"
+          },
+          "404": {
+            "$ref": "#/responses/NotFound"
+          }
+        }
+      },
+      "put": {
+        "summary": "Updates the campaign",
+        "operationId": "updateCampaignById",
+        "parameters": [
+          {
+            "$ref": "#/parameters/clientId"
+          },
+          {
+            "$ref": "#/parameters/accountId"
+          },
+          {
+            "$ref": "#/parameters/userId"
+          },
+          {
+            "$ref": "#/parameters/draftModeInQuery"
+          },
+          {
+            "name": "campaignId",
+            "in": "path",
+            "required": true,
+            "type": "string",
+            "description": "The ID of the campaign to update"
+          },
+          {
+            "name": "body",
+            "in": "body",
+            "description": "The updated campaign information",
+            "required": true,
+            "schema": {
+              "type": "object",
+              "properties": {
+                "platform": {
+                  "$ref": "#/definitions/PlatformEnum",
+                  "description": "The platform for which the token configuration is defined"
+                },
+                "platformCampaignId": {
+                  "type": "string",
+                  "description": "The platform campaign ID"
+                },
+                "formData": {
+                  "$ref": "#/definitions/savedFormData",
+                  "description": "The form data for the campaign"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "The campaign was updated"
+          },
+          "400": {
+            "$ref": "#/responses/BadRequest"
+          },
+          "404": {
+            "$ref": "#/responses/NotFound"
+          }
+        }
+      },
+      "delete": {
+        "summary": "Deletes the campaign",
+        "operationId": "deleteCampaignById",
+        "parameters": [
+          {
+            "$ref": "#/parameters/clientId"
+          },
+          {
+            "$ref": "#/parameters/accountId"
+          },
+          {
+            "$ref": "#/parameters/draftModeInQuery"
+          },
+          {
+            "name": "campaignId",
+            "in": "path",
+            "required": true,
+            "type": "string",
+            "description": "The ID of the campaign to delete"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "The campaign was deleted"
+          },
+          "400": {
+            "$ref": "#/responses/BadRequest"
+          },
+          "404": {
+            "$ref": "#/responses/NotFound"
+          }
+        }
+      }
+    },
+    "/adgroups": {
+      "get": {
+        "summary": "Retrieves the adgroup list for a campaign",
+        "operationId": "getAllAdGroupsForCampaign",
+        "parameters": [
+          {
+            "$ref": "#/parameters/clientId"
+          },
+          {
+            "$ref": "#/parameters/accountId"
+          },
+          {
+            "name": "campaignId",
+            "in": "query",
+            "type": "string",
+            "description": "The id of the campaign to retrieve ad groups for"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "The ad group list"
+          },
+          "400": {
+            "$ref": "#/responses/BadRequest"
+          },
+          "404": {
+            "$ref": "#/responses/NotFound"
+          }
+        }
+      }
+    },
+    "/adgroups/{adGroupId}": {
+      "get": {
+        "summary": "Retrieves an adgroup by ID",
+        "operationId": "getAdGroupById",
+        "parameters": [
+          {
+            "$ref": "#/parameters/clientId"
+          },
+          {
+            "$ref": "#/parameters/accountId"
+          },
+          {
+            "name": "adGroupId",
+            "in": "path",
+            "required": true,
+            "type": "string",
+            "description": "The ID of the ad group to retrieve"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "The ad group details"
+          },
+          "400": {
+            "$ref": "#/responses/BadRequest"
+          },
+          "404": {
+            "$ref": "#/responses/NotFound"
+          }
+        }
+      },
+      "put": {
+        "summary": "Updates the adgroup",
+        "operationId": "updateAdGroupById",
+        "parameters": [
+          {
+            "$ref": "#/parameters/clientId"
+          },
+          {
+            "$ref": "#/parameters/accountId"
+          },
+          {
+            "$ref": "#/parameters/userId"
+          },
+          {
+            "name": "adGroupId",
+            "in": "path",
+            "required": true,
+            "type": "string",
+            "description": "The ID of the ad group to update"
+          },
+          {
+            "name": "body",
+            "in": "body",
+            "description": "The updated ad group information",
+            "required": true,
+            "schema": {
+              "type": "object"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "The ad group was updated"
+          },
+          "400": {
+            "$ref": "#/responses/BadRequest"
+          },
+          "404": {
+            "$ref": "#/responses/NotFound"
+          }
+        }
+      },
+      "delete": {
+        "summary": "Deletes the adgroup",
+        "operationId": "deleteAdGroupById",
+        "parameters": [
+          {
+            "$ref": "#/parameters/clientId"
+          },
+          {
+            "$ref": "#/parameters/accountId"
+          },
+          {
+            "$ref": "#/parameters/userId"
+          },
+          {
+            "name": "adGroupId",
+            "in": "path",
+            "required": true,
+            "type": "string",
+            "description": "The ID of the ad group to delete"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "The campaign was deleted"
+          },
+          "400": {
+            "$ref": "#/responses/BadRequest"
+          },
+          "404": {
+            "$ref": "#/responses/NotFound"
+          }
+        }
+      }
+    },
+    "/ads": {
+      "get": {
+        "summary": "Retrieves the ass list for an adgroup",
+        "operationId": "getAdsForAdGroup",
+        "parameters": [
+          {
+            "$ref": "#/parameters/clientId"
+          },
+          {
+            "$ref": "#/parameters/accountId"
+          },
+          {
+            "name": "adGroupId",
+            "in": "query",
+            "type": "string",
+            "description": "The id of the ad group to retrieve ads for"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "The ad list"
+          },
+          "400": {
+            "$ref": "#/responses/BadRequest"
+          },
+          "404": {
+            "$ref": "#/responses/NotFound"
+          }
+        }
+      }
+    },
+    "/ads/{adId}": {
+      "get": {
+        "summary": "Retrieves an ad by ID",
+        "operationId": "getAdById",
+        "parameters": [
+          {
+            "$ref": "#/parameters/clientId"
+          },
+          {
+            "$ref": "#/parameters/accountId"
+          },
+          {
+            "name": "adId",
+            "in": "path",
+            "required": true,
+            "type": "string",
+            "description": "The ID of the ad to retrieve"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "The ad details"
+          },
+          "400": {
+            "$ref": "#/responses/BadRequest"
+          },
+          "404": {
+            "$ref": "#/responses/NotFound"
+          }
+        }
+      },
+      "put": {
+        "summary": "Updates the ad",
+        "operationId": "updateAdById",
+        "parameters": [
+          {
+            "$ref": "#/parameters/clientId"
+          },
+          {
+            "$ref": "#/parameters/accountId"
+          },
+          {
+            "$ref": "#/parameters/userId"
+          },
+          {
+            "name": "adId",
+            "in": "path",
+            "required": true,
+            "type": "string",
+            "description": "The ID of the ad to update"
+          },
+          {
+            "name": "body",
+            "in": "body",
+            "description": "The updated ad information",
+            "required": true,
+            "schema": {
+              "type": "object"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "The ad was updated"
+          },
+          "400": {
+            "$ref": "#/responses/BadRequest"
+          },
+          "404": {
+            "$ref": "#/responses/NotFound"
+          }
+        }
+      },
+      "delete": {
+        "summary": "Deletes the ad",
+        "operationId": "deleteAdById",
+        "parameters": [
+          {
+            "$ref": "#/parameters/clientId"
+          },
+          {
+            "$ref": "#/parameters/accountId"
+          },
+          {
+            "$ref": "#/parameters/userId"
+          },
+          {
+            "name": "adId",
+            "in": "path",
+            "required": true,
+            "type": "string",
+            "description": "The ID of the ad to delete"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "The ad was deleted"
+          },
+          "400": {
+            "$ref": "#/responses/BadRequest"
+          },
+          "404": {
+            "$ref": "#/responses/NotFound"
+          }
+        }
+      }
+    }
+  },
+  "definitions": {
+    "savedFormData": {
+      "type": "object",
+      "properties": {
+        "_id": {
+          "type": "string",
+          "description": "The ID of the form data"
+        },
+        "data": {
+          "type": "string",
+          "description": "The form data for the campaign"
+        }
+      }
+    },
+    "ErrorResponse": {
+      "properties": {
+        "code": {
+          "description": "A status code",
+          "type": "string"
+        },
+        "reason": {
+          "description": "A descriptive message",
+          "type": "string"
+        }
+      }
+    }
+  }
+}

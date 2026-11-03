@@ -1,0 +1,53 @@
+{
+  "listen": {
+    "port": {
+      "value": 8080,
+      "_doc": "The HTTP server listens on this port"
+    },
+    "keepAliveTimeout": {
+      "value": 15000,
+      "_doc": "See https://nodejs.org/dist/latest-v8.x/docs/api/http.html#http_server_keepalivetimeout"
+    }
+  },
+  "service-log": {
+    "config-path": {
+      "value": "config/service-template-logging.json",
+      "_doc": "the path to the service log config file"
+    },
+    "config-path-worker": {
+      "value": "config/service-template-logging-worker.json",
+      "_doc": "the path to the cluster worker service log config file"
+    }
+  },
+  "gc-log": {
+    "enabled": {
+      "value": true,
+      "_doc": "toggles logging of v8 GC events"
+    }
+  },
+  "health": {
+    "heartbeat-path": {
+      "value": "heartbeat.txt",
+      "_doc": "Physical path of the file served by the service to indicate its health to the load balancer"
+    }
+  },
+  "workers": {
+    "count": {
+      "value": -1,
+      "_doc": "The number of workers to create in the multi-process cluster. 0 indicates no workers are created and all requests are handled by the main process. -1 creates workers equivalent to the number of CPUs on the local host"
+    },
+    "execArgv": {
+      "value": ["--max_old_space_size=1000"],
+      "_doc": "list of string arguments passed to each worker"
+    }
+  },
+  "status": {
+    "port": 8082
+  },
+  "crash-log": {
+    "base-path": {
+      "value": "./logs/service-template",
+      "_doc": "the base path to which sigsegv crash dumps are written"
+    }
+  }
+}

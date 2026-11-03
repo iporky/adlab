@@ -1,0 +1,66 @@
+{
+  "swagger": "2.0",
+  "consumes": [
+    "application/x-www-form-urlencoded"
+  ],
+  "produces": [
+    "application/json"
+  ],
+  "info": {
+    "title": "permissions",
+    "description": "This API provides the ability to retrieve the user role permissions for a given okta user id",
+    "version": "1.0"
+  },
+  "basePath": "/v1",
+  "schemes": [
+    "http",
+    "https"
+  ],
+  "responses": {
+    "BadRequest": {
+      "description": "The request was invalid. For example, the value of the initial parameter was invalid",
+      "schema": {
+        "type": "string"
+      }
+    },
+    "NotFound": {
+      "description": "The resource was not found",
+      "schema": {
+        "type": "string"
+      }
+    }
+  },
+  "paths": {
+    "/permissions": {
+      "get": {
+        "summary": "Retrieves the user role permissions for a given okta user id",
+        "operationId": "getUserPermissions",
+        "responses": {
+          "200": {
+            "description": "The current session"
+          },
+          "400": {
+            "$ref": "#/responses/BadRequest"
+          },
+          "404": {
+            "$ref": "#/responses/NotFound"
+          }
+        }
+      }
+    }
+  },
+  "definitions": {
+    "ErrorResponse": {
+      "properties": {
+        "code": {
+          "description": "A status code",
+          "type": "string"
+        },
+        "reason": {
+          "description": "A descriptive message",
+          "type": "string"
+        }
+      }
+    }
+  }
+}

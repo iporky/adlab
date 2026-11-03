@@ -1,0 +1,28 @@
+{
+  "name": "adlab-shared",
+  "version": "1.0.0",
+  "description": "shared modules for adlab",
+  "module": "dist/main.esm.js",
+  "main": "src/index.js",
+  "private": true,
+  "scripts": {
+    "build": "webpack --config webpack.config.js",
+    "format": "pnpx prettier --write ."
+  },
+  "keywords": [
+    "adlab",
+    "shared"
+  ],
+  "author": "[24]7 ai inc.",
+  "license": "ISC",
+  "dependencies": {
+    "joi": "17.4.0"
+  },
+  "devDependencies": {
+    "eslint": "8.55.0",
+    "prettier": "3.3.2",
+    "webpack": "5.94.0",
+    "webpack-cli": "5.1.4"
+  },
+  "type": "module"
+}

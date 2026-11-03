@@ -1,0 +1,581 @@
+{
+  "swagger": "2.0",
+  "consumes": ["application/json", "application/x-www-form-urlencoded"],
+  "produces": ["application/json"],
+  "info": {
+    "title": "Targetings API",
+    "description": "This API provides the ability to manage targetings",
+    "version": "2.0"
+  },
+  "basePath": "/v2",
+  "schemes": ["http", "https"],
+  "parameters": {
+    "clientId": {
+      "name": "x-tfs-client-id",
+      "in": "header",
+      "required": true,
+      "type": "string",
+      "description": "The client identifier"
+    },
+    "accountId": {
+      "name": "x-tfs-account-id",
+      "in": "header",
+      "required": true,
+      "type": "string",
+      "description": "The account identifier"
+    },
+    "campaignId": {
+      "name": "campaignId",
+      "in": "path",
+      "required": true,
+      "type": "string",
+      "description": "The ID of the campaign"
+    },
+    "targetingId": {
+      "name": "targetingId",
+      "in": "path",
+      "required": true,
+      "type": "string",
+      "description": "The ID of the targeting configuration"
+    }
+  },
+  "responses": {
+    "BadRequest": {
+      "description": "The request was invalid",
+      "schema": {
+        "$ref": "#/definitions/ErrorResponse"
+      }
+    },
+    "NotFound": {
+      "description": "The resource was not found",
+      "schema": {
+        "$ref": "#/definitions/ErrorResponse"
+      }
+    }
+  },
+  "paths": {
+    "/campaigns/{campaignId}/targetings": {
+      "post": {
+        "summary": "Create a new targeting configuration",
+        "operationId": "createTargeting",
+        "tags": ["Targetings"],
+        "parameters": [
+          { "$ref": "#/parameters/clientId" },
+          { "$ref": "#/parameters/accountId" },
+          {
+            "name": "campaignId",
+            "in": "path",
+            "required": true,
+            "type": "string",
+            "description": "The ID of the campaign"
+          },
+          {
+            "name": "body",
+            "in": "body",
+            "description": "The targeting configuration to create",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/TargetingRequest"
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "The targeting configuration was created successfully",
+            "schema": {
+              "$ref": "#/definitions/TargetingResponse"
+            }
+          },
+          "400": {
+            "$ref": "#/responses/BadRequest"
+          }
+        }
+      },
+      "get": {
+        "summary": "Retrieve all targeting configurations for a campaign",
+        "operationId": "getAllTargetingForCampaign",
+        "tags": ["Targetings"],
+        "parameters": [
+          { "$ref": "#/parameters/clientId" },
+          { "$ref": "#/parameters/accountId" },
+          {
+            "name": "campaignId",
+            "in": "path",
+            "required": true,
+            "type": "string",
+            "description": "The ID of the campaign"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "A list of targeting configurations for the campaign",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "targetings": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/definitions/TargetingResponse"
+                  }
+                },
+                "pagination": {
+                  "type": "object",
+                  "properties": {
+                    "total": {
+                      "type": "integer",
+                      "example": 10
+                    },
+                    "page": {
+                      "type": "integer",
+                      "example": 1
+                    },
+                    "pageSize": {
+                      "type": "integer",
+                      "example": 20
+                    },
+                    "hasMore": {
+                      "type": "boolean",
+                      "example": false
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/responses/BadRequest"
+          },
+          "404": {
+            "$ref": "#/responses/NotFound"
+          }
+        }
+      }
+    },
+    "/campaigns/{campaignId}/targetings/{targetingId}": {
+      "get": {
+        "summary": "Retrieve a targeting configuration by its ID",
+        "operationId": "getTargetingById",
+        "tags": ["Targetings"],
+        "parameters": [
+          { "$ref": "#/parameters/clientId" },
+          { "$ref": "#/parameters/accountId" },
+          {
+            "name": "campaignId",
+            "in": "path",
+            "required": true,
+            "type": "string",
+            "description": "The ID of the campaign"
+          },
+          {
+            "name": "targetingId",
+            "in": "path",
+            "required": true,
+            "type": "string",
+            "description": "The ID of the targeting configuration"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "The targeting configuration details",
+            "schema": {
+              "$ref": "#/definitions/TargetingResponse"
+            }
+          },
+          "400": {
+            "$ref": "#/responses/BadRequest"
+          },
+          "404": {
+            "$ref": "#/responses/NotFound"
+          }
+        }
+      },
+      "put": {
+        "summary": "Update a targeting configuration",
+        "operationId": "updateTargetingById",
+        "tags": ["Targetings"],
+        "parameters": [
+          { "$ref": "#/parameters/clientId" },
+          { "$ref": "#/parameters/accountId" },
+          {
+            "name": "campaignId",
+            "in": "path",
+            "required": true,
+            "type": "string",
+            "description": "The ID of the campaign"
+          },
+          {
+            "name": "targetingId",
+            "in": "path",
+            "required": true,
+            "type": "string",
+            "description": "The ID of the targeting configuration"
+          },
+          {
+            "name": "body",
+            "in": "body",
+            "description": "The updated targeting configuration",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/TargetingRequest"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "The targeting configuration was updated successfully",
+            "schema": {
+              "$ref": "#/definitions/TargetingResponse"
+            }
+          },
+          "400": {
+            "$ref": "#/responses/BadRequest"
+          },
+          "404": {
+            "$ref": "#/responses/NotFound"
+          }
+        }
+      },
+      "patch": {
+        "summary": "Partially update a targeting configuration",
+        "operationId": "patchTargetingById",
+        "tags": ["Targetings"],
+        "parameters": [
+          { "$ref": "#/parameters/clientId" },
+          { "$ref": "#/parameters/accountId" },
+          {
+            "name": "campaignId",
+            "in": "path",
+            "required": true,
+            "type": "string",
+            "description": "The ID of the campaign"
+          },
+          {
+            "name": "targetingId",
+            "in": "path",
+            "required": true,
+            "type": "string",
+            "description": "The ID of the targeting configuration"
+          },
+          {
+            "name": "body",
+            "in": "body",
+            "description": "The partial targeting configuration to update",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/TargetingRequest"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "The targeting configuration was updated successfully",
+            "schema": {
+              "$ref": "#/definitions/TargetingResponse"
+            }
+          },
+          "400": {
+            "$ref": "#/responses/BadRequest"
+          },
+          "404": {
+            "$ref": "#/responses/NotFound"
+          }
+        }
+      },
+      "delete": {
+        "summary": "Delete a targeting configuration",
+        "operationId": "deleteTargetingById",
+        "tags": ["Targetings"],
+        "parameters": [
+          { "$ref": "#/parameters/clientId" },
+          { "$ref": "#/parameters/accountId" },
+          {
+            "name": "campaignId",
+            "in": "path",
+            "required": true,
+            "type": "string",
+            "description": "The ID of the campaign"
+          },
+          {
+            "name": "targetingId",
+            "in": "path",
+            "required": true,
+            "type": "string",
+            "description": "The ID of the targeting configuration"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "The targeting configuration was deleted successfully"
+          },
+          "400": {
+            "$ref": "#/responses/BadRequest"
+          },
+          "404": {
+            "$ref": "#/responses/NotFound"
+          }
+        }
+      }
+    }
+  },
+  "definitions": {
+    "PlatformEnum": {
+      "type": "string",
+      "enum": ["TARGET"],
+      "description": "The platform for which the targeting is defined",
+      "example": "TARGET"
+    },
+    "TargetingRequest": {
+      "type": "object",
+      "properties": {
+        "platform": {
+          "$ref": "#/definitions/PlatformEnum"
+        },
+        "demographics": {
+          "type": "object",
+          "description": "Demographic targeting options",
+          "properties": {
+            "age": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              },
+              "description": "Age ranges to target",
+              "example": ["AGE_18_24", "AGE_25_34"]
+            },
+            "gender": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              },
+              "description": "Gender options to target",
+              "example": ["MALE", "FEMALE"]
+            },
+            "income": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              },
+              "description": "Income levels to target",
+              "example": ["INCOME_MEDIUM", "INCOME_HIGH"]
+            }
+          }
+        },
+        "geo": {
+          "type": "object",
+          "description": "Geographic targeting options",
+          "properties": {
+            "countries": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              },
+              "description": "Countries to target",
+              "example": ["US", "CA"]
+            },
+            "cities": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              },
+              "description": "Cities to target",
+              "example": ["New York", "Los Angeles"]
+            },
+            "radius": {
+              "type": "number",
+              "description": "Radius in miles for location targeting",
+              "example": 50
+            }
+          }
+        },
+        "audiences": {
+          "type": "object",
+          "description": "Audience targeting options",
+          "properties": {
+            "interests": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              },
+              "description": "Interest categories to target",
+              "example": ["TECHNOLOGY", "FASHION"]
+            },
+            "behaviors": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              },
+              "description": "Behavioral categories to target",
+              "example": ["WEBSITE", "APP"]
+            },
+            "customSegments": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              },
+              "description": "Custom audience segments to target",
+              "example": ["segment_123", "segment_456"]
+            }
+          }
+        },
+        "brandSafety": {
+          "type": "object",
+          "description": "Brand safety settings",
+          "properties": {
+            "contentCategories": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              },
+              "description": "Content categories to include",
+              "example": ["ADULT", "SENSITIVE"]
+            },
+            "riskLevel": {
+              "type": "string",
+              "description": "Brand safety risk level",
+              "example": "MINIMAL"
+            },
+            "excludedTopics": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              },
+              "description": "Topics to exclude",
+              "example": ["ADULT", "GAMBLING"]
+            }
+          }
+        },
+        "placements": {
+          "type": "object",
+          "description": "Ad placement options",
+          "properties": {
+            "positions": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              },
+              "description": "Ad positions to target",
+              "example": ["PREROLL", "IN_FEED"]
+            },
+            "devices": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              },
+              "description": "Device types to target",
+              "example": ["MOBILE", "DESKTOP"]
+            },
+            "platforms": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              },
+              "description": "Operating systems to target",
+              "example": ["IOS", "ANDROID"]
+            }
+          }
+        },
+        "timing": {
+          "type": "object",
+          "description": "Timing and scheduling options",
+          "properties": {
+            "dayParting": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              },
+              "description": "Time of day targeting",
+              "example": ["MORNING", "AFTERNOON", "WEEKDAY"]
+            },
+            "frequency": {
+              "type": "object",
+              "properties": {
+                "cap": {
+                  "type": "integer",
+                  "description": "Maximum impressions per user",
+                  "example": 3
+                },
+                "period": {
+                  "type": "string",
+                  "description": "Time period for frequency cap",
+                  "example": "DAY"
+                }
+              }
+            }
+          }
+        }
+      },
+      "required": ["platform"]
+    },
+    "TargetingResponse": {
+      "allOf": [
+        {
+          "$ref": "#/definitions/TargetingRequest"
+        },
+        {
+          "type": "object",
+          "properties": {
+            "id": {
+              "type": "string",
+              "description": "The unique identifier for the targeting configuration",
+              "example": "507f1f77bcf86cd799439011"
+            },
+            "campaignId": {
+              "type": "string",
+              "description": "The ID of the associated campaign",
+              "example": "507f1f77bcf86cd799439022"
+            },
+            "createdAt": {
+              "type": "string",
+              "format": "date-time",
+              "description": "The creation timestamp",
+              "example": "2024-03-20T10:00:00Z"
+            },
+            "updatedAt": {
+              "type": "string",
+              "format": "date-time",
+              "description": "The last update timestamp",
+              "example": "2024-03-20T15:30:00Z"
+            },
+            "createdBy": {
+              "type": "string",
+              "description": "The ID of the user who created the targeting",
+              "example": "user_123"
+            },
+            "updatedBy": {
+              "type": "string",
+              "description": "The ID of the user who last updated the targeting",
+              "example": "user_456"
+            },
+            "status": {
+              "type": "string",
+              "description": "The status of the targeting configuration",
+              "example": "ACTIVE"
+            },
+            "version": {
+              "type": "integer",
+              "description": "The version number of the targeting configuration",
+              "example": 1
+            }
+          },
+          "required": ["id", "campaignId", "createdAt", "updatedAt", "status"]
+        }
+      ]
+    },
+    "ErrorResponse": {
+      "type": "object",
+      "properties": {
+        "code": {
+          "type": "string",
+          "description": "A status code",
+          "example": "INVALID_REQUEST"
+        },
+        "reason": {
+          "type": "string",
+          "description": "A descriptive message",
+          "example": "Invalid targeting configuration"
+        }
+      },
+      "required": ["code", "reason"]
+    }
+  }
+}

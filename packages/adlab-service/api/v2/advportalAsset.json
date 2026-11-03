@@ -1,0 +1,166 @@
+{
+  "swagger": "2.0",
+  "consumes": ["application/json", "application/x-www-form-urlencoded"],
+  "produces": ["application/json"],
+  "info": {
+    "title": "Advportal Asset API",
+    "description": "API for fetching folders and assets (images, videos, templates) from Advportal",
+    "version": "1.0"
+  },
+  "basePath": "/v2",
+  "schemes": ["http", "https"],
+  "parameters": {
+    "folderId": {
+      "name": "folderId",
+      "in": "path",
+      "required": true,
+      "type": "integer",
+      "description": "The folder ID"
+    }
+  },
+  "responses": {
+    "BadRequest": {
+      "description": "The request was invalid",
+      "schema": {
+        "$ref": "#/definitions/ErrorResponse"
+      }
+    },
+    "NotFound": {
+      "description": "The resource was not found",
+      "schema": {
+        "$ref": "#/definitions/ErrorResponse"
+      }
+    }
+  },
+  "paths": {
+    "/advportal/assets/folders": {
+      "get": {
+        "summary": "Get all asset folders",
+        "tags": ["Advportal Asset"],
+        "operationId": "getAllFolders",
+        "responses": {
+          "200": {
+            "description": "List of folders"
+          },
+          "400": {
+            "$ref": "#/responses/BadRequest"
+          }
+        }
+      }
+    },
+    "/advportal/assets/images/{folderId}": {
+      "get": {
+        "summary": "Get images by folderId",
+        "tags": ["Advportal Asset"],
+        "operationId": "getImageAssetByFolder",
+        "parameters": [
+          {
+            "$ref": "#/parameters/folderId"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "List of image assets"
+          },
+          "400": {
+            "$ref": "#/responses/BadRequest"
+          },
+          "404": {
+            "$ref": "#/responses/NotFound"
+          }
+        }
+      }
+    },
+    "/advportal/assets/videos/{folderId}": {
+      "get": {
+        "summary": "Get videos by folderId",
+        "tags": ["Advportal Asset"],
+        "operationId": "getVideoAssetByFolder",
+        "parameters": [
+          {
+            "$ref": "#/parameters/folderId"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "List of video assets"
+          },
+          "400": {
+            "$ref": "#/responses/BadRequest"
+          },
+          "404": {
+            "$ref": "#/responses/NotFound"
+          }
+        }
+      }
+    },
+    "/advportal/assets/templates/{folderId}": {
+      "get": {
+        "summary": "Get templates by folderId",
+        "tags": ["Advportal Asset"],
+        "operationId": "getTemplateAssetByFolder",
+        "parameters": [
+          {
+            "$ref": "#/parameters/folderId"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "List of template assets"
+          },
+          "400": {
+            "$ref": "#/responses/BadRequest"
+          },
+          "404": {
+            "$ref": "#/responses/NotFound"
+          }
+        }
+      }
+    },
+    "/advportal/assets/template/{orgId}/{templateId}": {
+      "get": {
+        "summary": "Proxy for Turbo template JSON",
+        "tags": ["Advportal Asset"],
+        "description": "Fetches the template JSON from Turbo EngageClick",
+        "parameters": [
+          {
+            "name": "orgId",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "templateId",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Template JSON from Turbo"
+          },
+          "500": {
+            "description": "Error proxying from Turbo"
+          }
+        }
+      }
+    }
+
+  },
+  "definitions": {
+    "ErrorResponse": {
+      "type": "object",
+      "properties": {
+        "code": {
+          "type": "string",
+          "description": "A status code"
+        },
+        "reason": {
+          "type": "string",
+          "description": "A descriptive message"
+        }
+      }
+    }
+  }
+}

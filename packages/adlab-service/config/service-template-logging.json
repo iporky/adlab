@@ -1,0 +1,11 @@
+{
+  "appenders": {
+    "console": {
+      "type": "@tfs/node-log4js-json-appender"
+    }
+  },
+  "categories": {
+    "default": { "appenders": ["console"], "level": "INFO" },
+    "SRVR": { "appenders": ["console"], "level": "INFO" }
+  }
+}

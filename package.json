@@ -1,0 +1,43 @@
+{
+  "name": "adlab",
+  "version": "1.0.0",
+  "description": "AdLab - Multi-Channel Dynamic Creative Optimization (DCO) & Ad Campaign Orchestration Monorepo",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/iporky/adlab.git"
+  },
+  "scripts": {
+    "build:ui": "nx build adlab-ui",
+    "build:service": "nx build adlab-service",
+    "build:adapters": "nx build adlab-adapters",
+    "build:shared": "nx build adlab-shared",
+    "build": "nx run-many --target=build --all",
+    "test": "nx run-many --target=test --all",
+    "format": "nx run-many --target=format --all",
+    "install:deps": "pnpm install",
+    "start": "docker compose up",
+    "onboard:db": "pnpm --filter adlab-service run onboard:db",
+    "deboard:db": "pnpm --filter adlab-service run deboard:db",
+    "setup": "pnpm run install:deps && pnpm run start && pnpm run onboard:db",
+    "prepare": "husky"
+  },
+  "keywords": [
+    "pnpm",
+    "monorepo",
+    "nx",
+    "adlab",
+    "ad-tech",
+    "dco",
+    "dynamic-creative-optimization",
+    "campaign-management",
+    "react",
+    "nodejs",
+    "express"
+  ],
+  "author": "Shivang Chauhan",
+  "license": "ISC",
+  "devDependencies": {
+    "husky": "9.0.11",
+    "nx": "19.4.0"
+  }
+}

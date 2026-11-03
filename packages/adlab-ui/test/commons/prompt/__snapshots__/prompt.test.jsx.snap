@@ -1,0 +1,9 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Prompt renders without crashing 1`] = `
+<div>
+  <span
+    hidden=""
+  />
+</div>
+`;

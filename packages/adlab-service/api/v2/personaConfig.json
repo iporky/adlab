@@ -1,0 +1,556 @@
+{
+  "swagger": "2.0",
+  "consumes": ["application/json"],
+  "produces": ["application/json"],
+  "info": {
+    "title": "Persona Config API",
+    "description": "API for managing persona configurations and combinations",
+    "version": "2.0"
+  },
+  "basePath": "/v2",
+  "schemes": ["http", "https"],
+  "parameters": {
+    "clientId": {
+      "name": "x-tfs-client-id",
+      "in": "header",
+      "required": true,
+      "type": "string",
+      "description": "The client identifier"
+    },
+    "accountId": {
+      "name": "x-tfs-account-id",
+      "in": "header",
+      "required": true,
+      "type": "string",
+      "description": "The account identifier"
+    },
+    "campaignId": {
+      "name": "campaignId",
+      "in": "path",
+      "required": true,
+      "type": "string",
+      "description": "The campaign identifier"
+    },
+    "personaConfigId": {
+      "name": "personaConfigId",
+      "in": "path",
+      "required": true,
+      "type": "string",
+      "description": "The persona config identifier"
+    }
+  },
+  "paths": {
+    "/campaigns/{campaignId}/personaconfig": {
+      "post": {
+        "summary": "Create a new persona config",
+        "operationId": "createPersonaConfig",
+        "tags": ["Persona Config"],
+        "consumes": ["application/json"],
+        "parameters": [
+          { "$ref": "#/parameters/clientId" },
+          { "$ref": "#/parameters/accountId" },
+          { "$ref": "#/parameters/campaignId" },
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/PersonaConfigCreate"
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Persona config created successfully",
+            "schema": {
+              "$ref": "#/definitions/PersonaConfig"
+            }
+          },
+          "400": { "$ref": "#/responses/BadRequest" }
+        }
+      },
+      "get": {
+        "summary": "Get persona config for a campaign",
+        "operationId": "getPersonaConfig",
+        "tags": ["Persona Config"],
+        "parameters": [
+          { "$ref": "#/parameters/clientId" },
+          { "$ref": "#/parameters/accountId" },
+          { "$ref": "#/parameters/campaignId" },
+          {
+            "name": "includeCombinations",
+            "in": "query",
+            "required": false,
+            "type": "boolean",
+            "default": false,
+            "description": "Whether to include combinations in the response"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Persona config retrieved successfully",
+            "schema": {
+              "$ref": "#/definitions/PersonaConfig"
+            }
+          },
+          "404": { "$ref": "#/responses/NotFound" }
+        }
+      }
+    },
+    "/campaigns/{campaignId}/personaconfig/{personaConfigId}": {
+      "put": {
+        "summary": "Update a persona config",
+        "operationId": "updatePersonaConfig",
+        "tags": ["Persona Config"],
+        "consumes": ["application/json"],
+        "parameters": [
+          { "$ref": "#/parameters/clientId" },
+          { "$ref": "#/parameters/accountId" },
+          { "$ref": "#/parameters/campaignId" },
+          { "$ref": "#/parameters/personaConfigId" },
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/PersonaConfigUpdate"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Persona config updated successfully",
+            "schema": {
+              "$ref": "#/definitions/PersonaConfig"
+            }
+          },
+          "400": { "$ref": "#/responses/BadRequest" },
+          "404": { "$ref": "#/responses/NotFound" }
+        }
+      },
+      "patch": {
+        "summary": "Partially update a persona config",
+        "description": "Update specific fields of a persona config, including combinations. To update combinations, provide an array of combination objects with id and mapping fields.",
+        "operationId": "patchPersonaConfig",
+        "tags": ["Persona Config"],
+        "consumes": ["application/json"],
+        "parameters": [
+          { "$ref": "#/parameters/clientId" },
+          { "$ref": "#/parameters/accountId" },
+          { "$ref": "#/parameters/campaignId" },
+          { "$ref": "#/parameters/personaConfigId" },
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/PersonaConfigPatch"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Persona config patched successfully",
+            "schema": {
+              "$ref": "#/definitions/PersonaConfig"
+            }
+          },
+          "400": { "$ref": "#/responses/BadRequest" },
+          "404": { "$ref": "#/responses/NotFound" }
+        }
+      },
+      "delete": {
+        "summary": "Delete a persona config",
+        "operationId": "deletePersonaConfig",
+        "tags": ["Persona Config"],
+        "parameters": [
+          { "$ref": "#/parameters/clientId" },
+          { "$ref": "#/parameters/accountId" },
+          { "$ref": "#/parameters/campaignId" },
+          { "$ref": "#/parameters/personaConfigId" }
+        ],
+        "responses": {
+          "204": {
+            "description": "Persona config deleted successfully"
+          },
+          "404": { "$ref": "#/responses/NotFound" }
+        }
+      }
+    }
+  },
+  "definitions": {
+    "PersonaConfigCreate": {
+      "type": "object",
+      "properties": {
+        "status": {
+          "type": "string",
+          "enum": ["DRAFT", "ACTIVE"],
+          "example": "DRAFT"
+        },
+        "template": {
+          "$ref": "#/definitions/Template"
+        },
+        "combinations": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Combination"
+          },
+          "example": [
+            {
+              "id": "comb123",
+              "key": "default-product-1234567890",
+              "mapping": {
+                "heading": "Amazing Product Sale",
+                "product_image": "https://cdn.example.com/products/123.jpg",
+                "cta_link": "https://example.com/buy/123"
+              },
+              "persona": {
+                "dayoftheweek": ["MONDAY", "FRIDAY"],
+                "os": ["WINDOWS", "MACOS"]
+              }
+            }
+          ]
+        }
+      },
+      "required": ["template", "status"]
+    },
+    "PersonaConfigUpdate": {
+      "type": "object",
+      "properties": {
+        "status": {
+          "type": "string",
+          "enum": ["DRAFT", "ACTIVE"]
+        },
+        "template": {
+          "type": "object",
+          "properties": {
+            "id": {
+              "type": "string",
+              "example": "template123"
+            },
+            "html": {
+              "type": "string",
+              "example": "https://cdn.example.com/templates/product-template.html"
+            },
+            "width": {
+              "type": "string",
+              "example": "300"
+            },
+            "height": {
+              "type": "string",
+              "example": "250"
+            },
+            "macros": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/Macro"
+              },
+              "example": [
+                {
+                  "name": "product_image",
+                  "type": "image",
+                  "url": "https://cdn.example.com/assets/product1.jpg",
+                  "width": "120",
+                  "height": "80"
+                }
+              ]
+            }
+          }
+        },
+        "combinations": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Combination"
+          }
+        }
+      }
+    },
+    "PersonaConfigPatch": {
+      "type": "object",
+      "properties": {
+        "status": {
+          "type": "string",
+          "enum": ["DRAFT", "ACTIVE"]
+        },
+        "template": {
+          "type": "object",
+          "properties": {
+            "id": {
+              "type": "string",
+              "example": "template123"
+            },
+            "html": {
+              "type": "string",
+              "example": "https://cdn.example.com/templates/product-template.html"
+            },
+            "width": {
+              "type": "string",
+              "example": "300"
+            },
+            "height": {
+              "type": "string",
+              "example": "250"
+            },
+            "macros": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/Macro"
+              },
+              "example": [
+                {
+                  "name": "product_image",
+                  "type": "image",
+                  "url": "https://cdn.example.com/assets/product1.jpg",
+                  "width": "120",
+                  "height": "80"
+                }
+              ]
+            }
+          }
+        },
+        "combinations": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Combination"
+          },
+          "description": "Array of combinations to update. Existing combinations with matching IDs will be updated, new combinations will be added, and combinations not in the array will be removed if combinations array is provided."
+        }
+      },
+      "minProperties": 1
+    },
+    "PersonaConfig": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "example": "pc123"
+        },
+        "campaignId": {
+          "type": "string",
+          "example": "camp123"
+        },
+        "status": {
+          "type": "string",
+          "enum": ["DRAFT", "ACTIVE"],
+          "example": "DRAFT"
+        },
+        "template": {
+          "type": "object",
+          "properties": {
+            "id": {
+              "type": "string",
+              "example": "template123"
+            },
+            "html": {
+              "type": "string",
+              "example": "https://cdn.example.com/templates/product-template.html"
+            },
+            "width": {
+              "type": "string",
+              "example": "300"
+            },
+            "height": {
+              "type": "string",
+              "example": "250"
+            },
+            "macros": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/Macro"
+              },
+              "example": [
+                {
+                  "name": "product_image",
+                  "type": "image",
+                  "url": "https://cdn.example.com/assets/product1.jpg",
+                  "width": "120",
+                  "height": "80"
+                }
+              ]
+            }
+          },
+          "required": ["id", "html"]
+        },
+        "combinations": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Combination"
+          },
+          "example": [
+            {
+              "id": "comb123",
+              "key": "default-product-1234567890",
+              "mapping": {
+                "product_image": "https://cdn.example.com/products/123.jpg",
+                "cta_link": "https://example.com/buy/123"
+              },
+              "persona": {
+                "dayoftheweek": ["MONDAY", "FRIDAY"],
+                "os": ["WINDOWS", "MACOS"]
+              }
+            }
+          ]
+        },
+        "clientId": {
+          "type": "string",
+          "example": "client123"
+        },
+        "accountId": {
+          "type": "string",
+          "example": "acc123"
+        },
+        "createdBy": {
+          "type": "string",
+          "example": "user123"
+        },
+        "createdOn": {
+          "type": "string",
+          "format": "date-time",
+          "example": "2024-03-20T10:00:00Z"
+        },
+        "updatedBy": {
+          "type": "string",
+          "example": "user123"
+        },
+        "updatedOn": {
+          "type": "string",
+          "format": "date-time",
+          "example": "2024-03-20T10:00:00Z"
+        }
+      }
+    },
+    "Template": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "example": "template123"
+        },
+        "html": {
+          "type": "string",
+          "example": "https://cdn.example.com/templates/product-template.html"
+        },
+        "width": {
+          "type": "string",
+          "example": "300"
+        },
+        "height": {
+          "type": "string",
+          "example": "250"
+        },
+        "macros": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Macro"
+          },
+          "example": [
+            {
+              "name": "product_image",
+              "type": "image",
+              "url": "https://cdn.example.com/assets/product1.jpg",
+              "width": "120",
+              "height": "80"
+            }
+          ]
+        }
+      },
+      "required": ["id", "html"]
+    },
+    "Macro": {
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": "string",
+          "example": "product_image"
+        },
+        "type": {
+          "type": "string",
+          "enum": ["image", "text", "video"],
+          "example": "image"
+        },
+        "url": {
+          "type": "string",
+          "example": "https://cdn.example.com/assets/product1.jpg",
+          "description": "Required for image and video types"
+        },
+        "width": {
+          "type": "string",
+          "example": "120"
+        },
+        "height": {
+          "type": "string",
+          "example": "80"
+        }
+      },
+      "required": ["name", "type"]
+    },
+    "Combination": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Unique identifier for the combination",
+          "example": "comb123"
+        },
+        "key": {
+          "type": "string",
+          "description": "Key for the combination, defaults to default-product-timestamp",
+          "example": "default-product-1234567890"
+        },
+        "mapping": {
+          "type": "object",
+          "description": "Key-value pairs mapping macro names to their values",
+          "additionalProperties": true,
+          "example": {
+            "product_image": "https://cdn.example.com/products/123.jpg",
+            "cta_link": "https://example.com/buy/123"
+          }
+        },
+        "persona": {
+          "type": "object",
+          "description": "Targeting rules for the combination",
+          "additionalProperties": true,
+          "example": {
+            "dayoftheweek": ["MONDAY", "FRIDAY"],
+            "os": ["WINDOWS", "MACOS"]
+          }
+        }
+      },
+      "required": ["id", "mapping"]
+    }
+  },
+  "responses": {
+    "BadRequest": {
+      "description": "Invalid request",
+      "schema": {
+        "type": "object",
+        "properties": {
+          "code": {
+            "type": "string",
+            "example": "INVALID_REQUEST"
+          },
+          "reason": {
+            "type": "string",
+            "example": "Invalid request parameters"
+          }
+        }
+      }
+    },
+    "NotFound": {
+      "description": "Resource not found",
+      "schema": {
+        "type": "object",
+        "properties": {
+          "code": {
+            "type": "string",
+            "example": "NOT_FOUND"
+          },
+          "reason": {
+            "type": "string",
+            "example": "Resource not found"
+          }
+        }
+      }
+    }
+  }
+}

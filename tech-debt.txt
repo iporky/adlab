@@ -1,0 +1,11 @@
+------------------------- Pending Tech Debts Count: 5 -------------------------
+
+-> Workspace:
+    . Hoist common eslint and prettier for the workspace level.
+    . Setup pre-commit hook for lint and test.
+    . Vault integration for secrets management.
+-> adlab-ui
+    . Remove @fluentui/react-components from package.json.
+    . Remove exceljs and papaparser from package.json.
+
+------ Remember, a tech debts completed today; saves you a weekend later! ------

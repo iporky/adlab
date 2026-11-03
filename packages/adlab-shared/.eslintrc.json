@@ -1,0 +1,15 @@
+{
+  "extends": "@tfs/eslint-config-247ai-node-base",
+  "env": {
+    "node": true,
+    "jest": true
+  },
+  "parserOptions": {
+    "sourceType": "module"
+  },
+  "rules": {
+    "import/extensions": "off",
+    "import/prefer-default-export": "off",
+    "import/no-default-export": "error"
+  }
+}

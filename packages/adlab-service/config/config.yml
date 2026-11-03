@@ -1,0 +1,11 @@
+_default:
+
+local:
+  WORKER_COUNT: '1'
+dev:
+
+psr:
+
+qa:
+
+stable:

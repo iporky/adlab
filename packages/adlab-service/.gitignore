@@ -1,0 +1,8 @@
+heartbeat.txt
+coverage/
+logs/
+node_modules/
+.nyc_output/
+*.log
+.idea/*
+package-lock.json

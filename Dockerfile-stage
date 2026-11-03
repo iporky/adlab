@@ -1,0 +1,30 @@
+FROM node:20-slim AS base
+
+ENV PNPM_HOME="/pnpm"
+
+ENV PATH="$PNPM_HOME:$PATH"
+
+RUN corepack enable
+
+WORKDIR /app
+
+COPY packages ./packages
+COPY package.json ./
+COPY pnpm-lock.yaml ./
+COPY pnpm-workspace.yaml ./
+COPY .npmrc ./
+COPY pm2.config.js ./
+
+RUN --mount=type=cache,id=pnpm,target=/pnpm/store pnpm install --frozen-lockfile
+
+# Install pm2 to manage multiple services
+RUN pnpm add pm2 -g
+
+# Copy the pm2 configuration file
+COPY pm2.config.js ./
+
+# Expose ports for both services
+EXPOSE 3000 8080
+
+# Start both services using pm2
+CMD ["pm2-runtime", "start", "pm2.config.js"]

@@ -1,0 +1,74 @@
+services:
+  adlab-ui:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      target: adlab-ui
+    stdin_open: true
+    ports:
+      - '3000:3000'
+    volumes:
+      - ./packages/adlab-ui:/app/packages/adlab-ui
+      - /app/packages/adlab-ui/node_modules
+    networks:
+      - adlab-network
+    depends_on:
+      - adlab-service
+
+  adlab-service:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      target: adlab-service
+    stdin_open: true
+    environment:
+      - MONGODB_URL=mongodb://mongodbpr1:27017
+      - DB_NAME=adlab
+    ports:
+      - '8080:8080'
+      - '9229:9229' # for debugging
+    volumes:
+      - ./packages/adlab-service:/app/packages/adlab-service
+      - /app/packages/adlab-service/node_modules
+    networks:
+      - adlab-network
+    depends_on:
+      - mongo
+
+  mongo-express:
+    image: mongo-express
+    ports:
+      - '8081:8081'
+    environment:
+      - ME_CONFIG_MONGODB_SERVER=mongodbpr1
+    networks:
+      - adlab-network
+    depends_on:
+        - mongo
+
+  # Setting up mongo as single instance replica set
+  # 1. Start the container with --replSet flag.
+  # Uncomment,
+  #   command: ["mongod", "--replSet", "rs0"]
+  #   - ./init-replica.sh:/docker-entrypoint-initdb.d/init-replica.sh
+  # 2. Initiate the replica set by running /docker-entrypoint-initdb.d/init-replica.sh
+  # 3. Start other dependant containers
+  mongo:
+    image: mongo:8.0
+    container_name: mongodbpr1 # mongodb primary replica 1
+#    command: ["mongod", "--replSet", "rs0"]
+    ports:
+      - '27017:27017'
+    networks:
+      - adlab-network
+    volumes:
+      - mongodb_data:/data/db
+#      - ./init-replica.sh:/docker-entrypoint-initdb.d/init-replica.sh
+
+volumes:
+  mongodb_data:
+    driver: local
+
+networks:
+  adlab-network:
+    driver: bridge

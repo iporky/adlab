@@ -1,0 +1,11 @@
+# Ignore artifacts:
+build
+coverage
+package.json
+pnpm-lock.yaml
+README.md
+public
+dist
+test-results
+node_modules
+playwright-report

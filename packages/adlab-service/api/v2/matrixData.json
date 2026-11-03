@@ -1,0 +1,384 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "title": "Matrix Data API",
+    "description": "API for managing matrix data for persona configurations",
+    "version": "2.0"
+  },
+  "basePath": "/v2",
+  "consumes": ["multipart/form-data", "application/json"],
+  "produces": ["application/json"],
+  "parameters": {
+    "clientId": {
+      "name": "x-tfs-client-id",
+      "in": "header",
+      "required": true,
+      "type": "string",
+      "description": "The client identifier"
+    },
+    "accountId": {
+      "name": "x-tfs-account-id",
+      "in": "header",
+      "required": true,
+      "type": "string",
+      "description": "The account identifier"
+    }
+  },
+  "paths": {
+    "/campaigns/{campaignId}/personaconfig/{personaConfigId}/matrixdata": {
+      "post": {
+        "summary": "Upload matrix data from Excel file",
+        "description": "Upload and process matrix data from an Excel file for a persona configuration",
+        "tags": ["Matrix Data"],
+        "operationId": "uploadMatrixData",
+        "consumes": ["multipart/form-data"],
+        "produces": ["application/json"],
+        "parameters": [
+          { "$ref": "#/parameters/clientId" },
+          { "$ref": "#/parameters/accountId" },
+          {
+            "name": "campaignId",
+            "in": "path",
+            "required": true,
+            "type": "string",
+            "description": "ID of the campaign"
+          },
+          {
+            "name": "personaConfigId",
+            "in": "path",
+            "required": true,
+            "type": "string",
+            "description": "The persona config identifier"
+          },
+          {
+            "name": "file",
+            "in": "formData",
+            "required": true,
+            "type": "file",
+            "description": "Excel file containing matrix data"
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Matrix data uploaded successfully",
+            "schema": {
+              "$ref": "#/definitions/MatrixData"
+            }
+          },
+          "400": {
+            "description": "Invalid request",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          },
+          "404": {
+            "description": "Campaign or persona config not found",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          }
+        }
+      },
+      "get": {
+        "summary": "Get matrix data",
+        "description": "Retrieve matrix data for a persona configuration",
+        "tags": ["Matrix Data"],
+        "parameters": [
+          { "$ref": "#/parameters/clientId" },
+          { "$ref": "#/parameters/accountId" },
+          {
+            "name": "campaignId",
+            "in": "path",
+            "required": true,
+            "type": "string",
+            "description": "ID of the campaign"
+          },
+          {
+            "name": "personaConfigId",
+            "in": "path",
+            "required": true,
+            "type": "string",
+            "description": "ID of the persona configuration"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Matrix data retrieved successfully",
+            "schema": {
+              "$ref": "#/definitions/MatrixData"
+            }
+          },
+          "404": {
+            "description": "Matrix data not found",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          }
+        }
+      }
+    },
+    "/campaigns/{campaignId}/personaconfig/{personaConfigId}/matrixdata/{matrixDataId}": {
+      "put": {
+        "summary": "Update matrix data",
+        "description": "Update existing matrix data with new Excel file",
+        "tags": ["Matrix Data"],
+        "parameters": [
+          { "$ref": "#/parameters/clientId" },
+          { "$ref": "#/parameters/accountId" },
+          {
+            "name": "campaignId",
+            "in": "path",
+            "required": true,
+            "type": "string",
+            "description": "ID of the campaign"
+          },
+          {
+            "name": "personaConfigId",
+            "in": "path",
+            "required": true,
+            "type": "string",
+            "description": "ID of the persona configuration"
+          },
+          {
+            "name": "matrixDataId",
+            "in": "path",
+            "required": true,
+            "type": "string",
+            "description": "ID of the matrix data"
+          },
+          {
+            "name": "file",
+            "in": "formData",
+            "required": true,
+            "type": "file",
+            "description": "Excel file containing updated matrix data"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Matrix data updated successfully",
+            "schema": {
+              "$ref": "#/definitions/MatrixData"
+            }
+          },
+          "400": {
+            "description": "Invalid request or file format",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          },
+          "404": {
+            "description": "Matrix data not found",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          }
+        }
+      },
+      "patch": {
+        "summary": "Partially update matrix data",
+        "description": "Update matrix data with new Excel file",
+        "tags": ["Matrix Data"],
+        "consumes": ["multipart/form-data"],
+        "parameters": [
+          { "$ref": "#/parameters/clientId" },
+          { "$ref": "#/parameters/accountId" },
+          {
+            "name": "campaignId",
+            "in": "path",
+            "required": true,
+            "type": "string",
+            "description": "ID of the campaign"
+          },
+          {
+            "name": "personaConfigId",
+            "in": "path",
+            "required": true,
+            "type": "string",
+            "description": "ID of the persona configuration"
+          },
+          {
+            "name": "matrixDataId",
+            "in": "path",
+            "required": true,
+            "type": "string",
+            "description": "ID of the matrix data"
+          },
+          {
+            "name": "file",
+            "in": "formData",
+            "required": true,
+            "type": "file",
+            "description": "Excel file containing matrix data updates"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Matrix data updated successfully",
+            "schema": {
+              "$ref": "#/definitions/MatrixData"
+            }
+          },
+          "400": {
+            "description": "Invalid request or file format",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          },
+          "404": {
+            "description": "Matrix data not found",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          }
+        }
+      },
+      "delete": {
+        "summary": "Delete matrix data",
+        "description": "Delete matrix data for a persona configuration",
+        "tags": ["Matrix Data"],
+        "parameters": [
+          { "$ref": "#/parameters/clientId" },
+          { "$ref": "#/parameters/accountId" },
+          {
+            "name": "campaignId",
+            "in": "path",
+            "required": true,
+            "type": "string",
+            "description": "ID of the campaign"
+          },
+          {
+            "name": "personaConfigId",
+            "in": "path",
+            "required": true,
+            "type": "string",
+            "description": "ID of the persona configuration"
+          },
+          {
+            "name": "matrixDataId",
+            "in": "path",
+            "required": true,
+            "type": "string",
+            "description": "ID of the matrix data"
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "Matrix data deleted successfully"
+          },
+          "404": {
+            "description": "Matrix data not found",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          }
+        }
+      }
+    }
+  },
+  "definitions": {
+    "MatrixData": {
+      "type": "object",
+      "properties": {
+        "_id": {
+          "type": "string"
+        },
+        "personaConfigId": {
+          "type": "string"
+        },
+        "data": {
+          "type": "object",
+          "properties": {
+            "heading": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              },
+              "example": ["Heading1"]
+            },
+            "subheading": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              },
+              "example": ["Sub1", "Sub2"]
+            },
+            "product": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              },
+              "example": ["product1.png", "product"]
+            },
+            "cta": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              },
+              "example": ["Find Now", "Move To"]
+            },
+            "url": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              },
+              "example": ["https://maps.app.goo.gl/JUSTAFpcLhb2QKM7A", "https://maps.app.goo.gl/JUSTAFpcLhb2QKM7A"]
+            },
+            "dayoftheweek": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              },
+              "example": ["MONDAY"]
+            },
+            "os": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              },
+              "example": ["MACOS"]
+            }
+          }
+        },
+        "format": {
+          "type": "string",
+          "enum": ["Excel"]
+        },
+        "createdBy": {
+          "type": "string"
+        },
+        "createdOn": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "updatedBy": {
+          "type": "string"
+        },
+        "updatedOn": {
+          "type": "string",
+          "format": "date-time"
+        }
+      }
+    },
+    "Error": {
+      "type": "object",
+      "required": ["code", "reason"],
+      "properties": {
+        "code": {
+          "type": "string",
+          "example": "INVALID_REQUEST"
+        },
+        "reason": {
+          "type": "string",
+          "example": "Invalid file format"
+        }
+      }
+    }
+  }
+}

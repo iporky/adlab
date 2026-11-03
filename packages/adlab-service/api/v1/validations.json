@@ -1,0 +1,94 @@
+{
+  "swagger": "2.0",
+  "consumes": ["application/json", "application/x-www-form-urlencoded"],
+  "produces": ["application/json"],
+  "info": {
+    "title": "validations",
+    "description": "This API provides the ability to validate ad mappings",
+    "version": "1.0"
+  },
+  "basePath": "/v1",
+  "schemes": ["http", "https"],
+  "paths": {
+    "/validate": {
+      "post": {
+        "summary": "Validate ad mappings for the given data",
+        "operationId": "validateAdMappings",
+        "parameters": [
+          {
+            "$ref": "#/parameters/clientId"
+          },
+          {
+            "$ref": "#/parameters/accountId"
+          },
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "type": "object",
+              "properties": {
+                "optimization_goal": {
+                  "type": "string"
+                },
+                "objective": {
+                  "type": "string"
+                },
+                "creatives": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "id": {
+                        "type": "string"
+                      },
+                      "ad_type": {
+                        "type": "string"
+                      },
+                      "adgroup_type": {
+                        "type": "string"
+                      },
+                      "creative_type": {
+                        "type": "string"
+                      },
+                      "call_to_action": {
+                        "type": "string"
+                      }
+                    },
+                    "required": ["id", "ad_type", "creative_type", "call_to_action"]
+                  }
+                }
+              },
+              "required": ["optimization_goal", "objective", "creatives"]
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Validation successful"
+          },
+          "400": {
+            "description": "Validation failed",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponse"
+            }
+          }
+        }
+      }
+    }
+  },
+  "definitions": {
+    "ErrorResponse": {
+      "properties": {
+        "code": {
+          "description": "A status code",
+          "type": "string"
+        },
+        "reason": {
+          "description": "A descriptive message",
+          "type": "string"
+        }
+      }
+    }
+  }
+}

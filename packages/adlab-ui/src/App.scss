@@ -1,0 +1,120 @@
+/* Global CSS variables for use in all components */
+:root {
+  --header-height: 65px;
+  --campaign-bg-gradient: linear-gradient(105.56deg, #EFF7FB 11.4%, #EFF0FB 28.28%, #E7EBF8 61.35%, #DCE0FE 84.56%);
+  --container-bg: #FFFFFF33;
+  --container-border: 1px solid #FFFFFF;
+  --campaign-bg-gradient-transparent: #ffffff00;
+}
+
+body {
+  margin: 0;
+  font-family: 'Lato', sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  color: var(--tfs-gray-100);
+  line-height: 1.6;
+  height: 100vh;
+  overflow: hidden;
+}
+
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--tfs-gray-100);
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--tfs-gray-500);
+  border-radius: 4px;
+  &:hover {
+    background: var(--tfs-gray-600);
+  }
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  scrollbar-width: thin;
+  scrollbar-color: var(--tfs-gray-500) var(--tfs-gray-100);
+}
+
+.app-header {
+  height: var(--header-height);
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 1000;
+}
+
+.app-main {
+  margin-top: var(--header-height);
+  height: calc(100vh - var(--header-height));
+  overflow: auto;
+  background-color: var(--campaign-bg-gradient);
+}
+
+.campaign-content {
+  min-height: fit-content;
+  height: 100%;
+  overflow: auto;
+}
+
+.primary-button,
+.secondary-button {
+  height: 48px;
+  width: 200px;
+}
+
+.primary-button {
+  background-color: var(--tfs-primary-500);
+  color: var(--tfs-gray-100);
+
+  &:hover {
+    background-color: var(--tfs-primary-600);
+  }
+}
+
+.secondary-button {
+  border: 1px solid var(--tfs-primary-500);
+  color: var(--tfs-primary-500);
+
+  &:hover {
+    background-color: var(--tfs-primary-50);
+  }
+}
+.campaign-bg {
+  background: var(--campaign-bg-gradient-transparent);
+}
+
+.container-bg {
+  background: var(--container-bg);
+  border: var(--container-border);
+  border-radius: 16px;
+  padding: 10px;
+}
+
+.custom-navbar {
+  background-color: #F1F4F9 !important;
+  height: 70px !important;
+}
+
+.custom-navbar > * {
+  height: 70px !important;
+}
+
+.custom-navbar [role="navigation"] {
+  height: 70px !important;
+  background-color: #F1F4F9 !important;
+}
+
+.custom-navbar .fui-Navbar__root {
+  height: 70px !important;
+  background-color: #F1F4F9 !important;
+}

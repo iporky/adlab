@@ -1,0 +1,149 @@
+{
+  "listen": {
+    "port": {
+      "value": 8080,
+      "_doc": "The HTTP server listens on this port"
+    },
+    "keepAliveTimeout": {
+      "value": 15000,
+      "_doc": "The time in milliseconds to wait for the next request before closing the connection"
+    },
+    "requestTimeout": {
+      "value": 120000,
+      "_doc": "The time in milliseconds to wait for the request to be processed"
+    }
+  },
+  "cors": {
+    "allowed_hostnames": "^localhost$|^127\\.0\\.0\\.1$"
+  },
+  "csp": {
+    "enabled": true,
+    "directives": {
+      "default-src": ["'self'"],
+      "script-src": [
+        "'self'",
+        "'unsafe-inline'",
+        "'unsafe-eval'",
+        "https://www.google-analytics.com",
+        "https://www.googletagmanager.com"
+      ],
+      "style-src": ["'self'", "'unsafe-inline'"],
+      "img-src": ["'self'", "data:", "https://www.google-analytics.com", "https://www.googletagmanager.com"],
+      "connect-src": ["'self'", "https://www.google-analytics.com", "https://www.googletagmanager.com"],
+      "font-src": ["'self'", "data:", "https://fonts.googleapis.com"],
+      "object-src": ["'none'"],
+      "media-src": ["'none'"],
+      "frame-src": ["'none'"],
+      "sandbox": ["allow-forms", "allow-scripts"],
+      "report-uri": ["/csp-report"]
+    }
+  },
+  "parser": {
+    "bodyLimit": {
+      "value": "10mb",
+      "_doc": "The maximum size of the request body"
+    },
+    "jsonLimit": {
+      "value": "10mb",
+      "_doc": "The maximum size of the JSON request body"
+    },
+    "urlencodedLimit": {
+      "value": "10mb",
+      "_doc": "The maximum size of the URL-encoded request body"
+    }
+  },
+  "security": {
+    "_doc": "Open ID Client configuration for Adlab Service in Okta",
+    "enabled": true,
+    "oidc": {
+      "issuer": "https://your-org.okta.com/oauth2/default",
+      "client_id": "YOUR_OKTA_CLIENT_ID"
+    },
+    "ums": {
+      "auth_enabled": false,
+      "issuer": "https://api.your-domain.com/v1/users",
+      "product_id": "personalization"
+    },
+    "unprotectedRoutes": ["health", "adlab", "adlabv2"],
+    "authorizedRoutes": ["permissions"]
+  },
+  "database": {
+    "connection_url": {
+      "value": "mongodb://localhost:27017",
+      "_doc": "The URL of the MongoDB database"
+    },
+    "db_name": {
+      "value": "adlab",
+      "_doc": "The name of the MongoDB database"
+    },
+    "connect_timeout_ms": {
+      "value": 30000,
+      "_doc": "The time in milliseconds to wait for a connection to be established"
+    },
+    "socket_timeout_ms": {
+      "value": 30000,
+      "_doc": "The time in milliseconds to wait for a response from the server"
+    }
+  },
+  "advportal": {
+    "base_url": {
+      "value": "https://your.mock.server",
+      "_doc": "Base url of the Advportal service used for assets"
+    },
+    "turbo_base_url": {
+      "value": "https://turbo.adlab.internal",
+      "_doc": "Base URL for Turbo EngageClick templateJson API"
+    }
+  },
+  "migrations": {
+    "collection_name": {
+      "value": "migration_changelogs",
+      "_doc": "The name of the collection that stores the migration state"
+    },
+    "file_extension": {
+      "value": "mig.js",
+      "_doc": "The file extension of the migration files"
+    }
+  },
+  "service-log": {
+    "config-path": {
+      "value": "config/service-template-logging.json",
+      "_doc": "the path to the service log config file"
+    },
+    "config-path-worker": {
+      "value": "config/service-template-logging-worker.json",
+      "_doc": "the path to the cluster worker service log config file"
+    }
+  },
+  "gc-log": {
+    "enabled": {
+      "value": true,
+      "_doc": "toggles logging of v8 GC events"
+    }
+  },
+  "health": {
+    "heartbeat-path": {
+      "value": "heartbeat.txt",
+      "_doc": "Physical path of the file served by the service to indicate its health to the load balancer"
+    }
+  },
+  "workers": {
+    "count": {
+      "value": 0,
+      "_doc": "The number of workers to create in the multi-process cluster. 0 indicates no workers are created and all requests are handled by the main process. -1 creates workers equivalent to the number of CPUs on the local host"
+    },
+    "execArgv": {
+      "value": ["--max_old_space_size=1000"],
+      "_doc": "list of string arguments passed to each worker"
+    }
+  },
+  "status": {
+    "port": 8082
+  },
+  "crash-log": {
+    "base-path": {
+      "value": "./logs/service-template",
+      "_doc": "the base path to which sigsegv crash dumps are written"
+    }
+  }
+}

@@ -1,0 +1,14 @@
+{
+  "appenders": {
+    "stdout": {
+      "type": "@tfs/node-log4js-json-appender",
+      "stdout": {
+        "type": "json"
+      }
+    }
+  },
+  "categories": {
+    "default": { "appenders": ["stdout"], "level": "INFO" },
+    "WRKR": { "appenders": ["stdout"], "level": "INFO" }
+  }
+}

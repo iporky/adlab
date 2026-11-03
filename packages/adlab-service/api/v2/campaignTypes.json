@@ -1,0 +1,409 @@
+{
+  "swagger": "2.0",
+  "consumes": ["application/json", "application/x-www-form-urlencoded"],
+  "produces": ["application/json"],
+  "info": {
+    "title": "Campaign Type API",
+    "description": "This API provides the ability to get campaign types and configurations",
+    "version": "2.0"
+  },
+  "basePath": "/v2",
+  "schemes": ["http", "https"],
+  "parameters": {
+    "clientId": {
+      "name": "x-tfs-client-id",
+      "in": "header",
+      "required": true,
+      "type": "string",
+      "description": "The client identifier"
+    },
+    "accountId": {
+      "name": "x-tfs-account-id",
+      "in": "header",
+      "required": true,
+      "type": "string",
+      "description": "The account identifier"
+    },
+    "campaignType": {
+      "name": "campaignType",
+      "in": "path",
+      "required": true,
+      "type": "string",
+      "description": "The type of campaign",
+      "enum": ["Target"]
+    }
+  },
+  "responses": {
+    "BadRequest": {
+      "description": "The request was invalid",
+      "schema": {
+        "$ref": "#/definitions/ErrorResponse"
+      }
+    },
+    "NotFound": {
+      "description": "The resource was not found",
+      "schema": {
+        "$ref": "#/definitions/ErrorResponse"
+      }
+    }
+  },
+  "paths": {
+    "/campaigns/types/{campaignType}": {
+      "get": {
+        "summary": "Retrieves the campaign types",
+        "operationId": "getCampaignForType",
+        "description": "Retrieves all generic campaign types for a specific platform",
+        "tags": ["Campaign Types"],
+        "parameters": [
+          { "$ref": "#/parameters/clientId" },
+          { "$ref": "#/parameters/accountId" },
+          { "$ref": "#/parameters/campaignType" }
+        ],
+        "responses": {
+          "200": {
+            "description": "The Campaign Type List",
+            "schema": {
+              "$ref": "#/definitions/CampaignTypeResponse"
+            }
+          },
+          "400": {
+            "$ref": "#/responses/BadRequest"
+          },
+          "404": {
+            "$ref": "#/responses/NotFound"
+          }
+        }
+      }
+    },
+    "/campaigns/types/goals": {
+      "get": {
+        "summary": "Retrieves the campaign objective goals",
+        "operationId": "getCampaignObjectiveGoals",
+        "tags": ["Campaign Types"],
+        "parameters": [{ "$ref": "#/parameters/clientId" }, { "$ref": "#/parameters/accountId" }],
+        "responses": {
+          "200": {
+            "description": "The Campaign Objective Goals List",
+            "schema": {
+              "$ref": "#/definitions/CampaignGoalsResponse"
+            }
+          },
+          "400": {
+            "$ref": "#/responses/BadRequest"
+          }
+        }
+      }
+    },
+    "/campaigns/types/objectives": {
+      "get": {
+        "summary": "Retrieves the campaign objectives",
+        "operationId": "getCampaignObjectives",
+        "tags": ["Campaign Types"],
+        "parameters": [{ "$ref": "#/parameters/clientId" }, { "$ref": "#/parameters/accountId" }],
+        "responses": {
+          "200": {
+            "description": "The Campaign Objectives List",
+            "schema": {
+              "$ref": "#/definitions/CampaignObjectivesResponse"
+            }
+          },
+          "400": {
+            "$ref": "#/responses/BadRequest"
+          }
+        }
+      }
+    },
+    "/campaigns/types/status": {
+      "get": {
+        "summary": "Retrieves the campaign status options",
+        "operationId": "getCampaignStatus",
+        "tags": ["Campaign Types"],
+        "parameters": [{ "$ref": "#/parameters/clientId" }, { "$ref": "#/parameters/accountId" }],
+        "responses": {
+          "200": {
+            "description": "The Campaign Status Options",
+            "schema": {
+              "$ref": "#/definitions/CampaignStatusResponse"
+            }
+          },
+          "400": {
+            "$ref": "#/responses/BadRequest"
+          }
+        }
+      }
+    },
+    "/campaigns/types/budgetType": {
+      "get": {
+        "summary": "Retrieves the campaign budget types",
+        "operationId": "getCampaignBudgetTypes",
+        "tags": ["Campaign Types"],
+        "parameters": [{ "$ref": "#/parameters/clientId" }, { "$ref": "#/parameters/accountId" }],
+        "responses": {
+          "200": {
+            "description": "The Campaign Budget Types",
+            "schema": {
+              "$ref": "#/definitions/CampaignBudgetTypeResponse"
+            }
+          },
+          "400": {
+            "$ref": "#/responses/BadRequest"
+          }
+        }
+      }
+    },
+    "/campaigns/types/budgetPacing": {
+      "get": {
+        "summary": "Retrieves the campaign budget pacing options",
+        "operationId": "getCampaignBudgetPacing",
+        "tags": ["Campaign Types"],
+        "parameters": [{ "$ref": "#/parameters/clientId" }, { "$ref": "#/parameters/accountId" }],
+        "responses": {
+          "200": {
+            "description": "The Campaign Budget Pacing Options",
+            "schema": {
+              "$ref": "#/definitions/CampaignBudgetPacingResponse"
+            }
+          },
+          "400": {
+            "$ref": "#/responses/BadRequest"
+          }
+        }
+      }
+    },
+    "/campaigns/types/currency": {
+      "get": {
+        "summary": "Retrieves the campaign currency options",
+        "operationId": "getCampaignCurrency",
+        "tags": ["Campaign Types"],
+        "parameters": [{ "$ref": "#/parameters/clientId" }, { "$ref": "#/parameters/accountId" }],
+        "responses": {
+          "200": {
+            "description": "The Campaign Currency Options",
+            "schema": {
+              "$ref": "#/definitions/CampaignCurrencyResponse"
+            }
+          },
+          "400": {
+            "$ref": "#/responses/BadRequest"
+          }
+        }
+      }
+    },
+    "/campaigns/types/campaignType": {
+      "get": {
+        "summary": "Retrieves the campaign types",
+        "operationId": "getCampaignTypes",
+        "tags": ["Campaign Types"],
+        "parameters": [{ "$ref": "#/parameters/clientId" }, { "$ref": "#/parameters/accountId" }],
+        "responses": {
+          "200": {
+            "description": "The Campaign Types",
+            "schema": {
+              "$ref": "#/definitions/CampaignTypesResponse"
+            }
+          },
+          "400": {
+            "$ref": "#/responses/BadRequest"
+          }
+        }
+      }
+    },
+    "/campaigns/types/campaignFormat": {
+      "get": {
+        "summary": "Retrieves the campaign formats",
+        "operationId": "getCampaignFormats",
+        "tags": ["Campaign Types"],
+        "parameters": [{ "$ref": "#/parameters/clientId" }, { "$ref": "#/parameters/accountId" }],
+        "responses": {
+          "200": {
+            "description": "The Campaign Formats",
+            "schema": {
+              "$ref": "#/definitions/CampaignFormatsResponse"
+            }
+          },
+          "400": {
+            "$ref": "#/responses/BadRequest"
+          }
+        }
+      }
+    }
+  },
+  "definitions": {
+    "ErrorResponse": {
+      "type": "object",
+      "properties": {
+        "code": {
+          "type": "string",
+          "description": "A status code",
+          "example": "INVALID_REQUEST"
+        },
+        "reason": {
+          "type": "string",
+          "description": "A descriptive message",
+          "example": "Invalid campaign type specified"
+        }
+      },
+      "required": ["code", "reason"]
+    },
+    "CampaignTypeResponse": {
+      "type": "object",
+      "properties": {
+        "platform": {
+          "type": "string",
+          "description": "The platform identifier",
+          "example": "Target"
+        },
+        "types": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "id": {
+                "type": "string",
+                "description": "The campaign type identifier",
+                "example": "AWARENESS"
+              },
+              "name": {
+                "type": "string",
+                "description": "Display name of the campaign type",
+                "example": "Brand Awareness"
+              },
+              "description": {
+                "type": "string",
+                "description": "Detailed description of the campaign type",
+                "example": "Increase awareness of your brand among your target audience"
+              },
+              "objectives": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                },
+                "description": "List of available objectives for this campaign type",
+                "example": ["REACH", "IMPRESSIONS", "BRAND_RECALL"]
+              }
+            },
+            "required": ["id", "name", "description", "objectives"]
+          }
+        }
+      },
+      "required": ["platform", "types"]
+    },
+    "CampaignGoalsResponse": {
+      "type": "object",
+      "example": {
+        "AWARENESS": ["BRAND_AWARENESS", "REACH", "VIDEO_VIEWS"],
+        "CONSIDERATION": ["WEBSITE_TRAFFIC", "PRODUCT_CONSIDERATION", "APP_ENGAGEMENT", "VIDEO_VIEWS"],
+        "CONVERSION": ["SALES", "OFFLINE_CONVERSION", "LEAD_GENERATION"]
+      }
+    },
+    "CampaignObjectivesResponse": {
+      "type": "object",
+      "example": {
+        "AWARENESS": {
+          "AWARENESS": "AWARENESS",
+          "BRAND_AWARENESS": "BRAND_AWARENESS",
+          "REACH": "REACH"
+        },
+        "CONSIDERATION": {
+          "CONSIDERATION": "CONSIDERATION",
+          "TRAFFIC": "TRAFFIC",
+          "ENGAGEMENT": "ENGAGEMENT",
+          "APP_PROMOTION": "APP_PROMOTION",
+          "VIDEO_VIEWS": "VIDEO_VIEWS"
+        },
+        "CONVERSION": {
+          "CONVERSION": "CONVERSION",
+          "APP_INSTALLS": "APP_INSTALLS",
+          "LEAD_GENERATION": "LEAD_GENERATION",
+          "SALES": "SALES",
+          "CATALOG_SALES": "CATALOG_SALES",
+          "STORE_VISITS": "STORE_VISITS"
+        }
+      }
+    },
+    "CampaignStatusResponse": {
+      "type": "object",
+      "example": {
+        "DRAFT": "DRAFT",
+        "PENDING": "PENDING",
+        "ACTIVE": "ACTIVE",
+        "PAUSED": "PAUSED",
+        "COMPLETED": "COMPLETED",
+        "ARCHIVED": "ARCHIVED",
+        "REJECTED": "REJECTED",
+        "SCHEDULED": "SCHEDULED",
+        "DELETED": "DELETED",
+        "ERROR": "ERROR",
+        "LIMITED": "LIMITED"
+      }
+    },
+    "CampaignBudgetTypeResponse": {
+      "type": "object",
+      "example": {
+        "DAILY": "DAILY",
+        "LIFETIME": "LIFETIME",
+        "MONTHLY": "MONTHLY",
+        "WEEKLY": "WEEKLY",
+        "QUARTERLY": "QUARTERLY",
+        "INSERTION_ORDER": "INSERTION_ORDER"
+      }
+    },
+    "CampaignBudgetPacingResponse": {
+      "type": "object",
+      "example": {
+        "STANDARD": "STANDARD",
+        "ACCELERATED": "ACCELERATED",
+        "EVEN": "EVEN",
+        "CUSTOM": "CUSTOM",
+        "FRONT_LOADED": "FRONT_LOADED",
+        "BACK_LOADED": "BACK_LOADED",
+        "DAY_PARTING": "DAY_PARTING"
+      }
+    },
+    "CampaignCurrencyResponse": {
+      "type": "object",
+      "example": {
+        "GLOBAL": {
+          "USD": "USD",
+          "EUR": "EUR",
+          "GBP": "GBP",
+          "JPY": "JPY"
+        },
+        "AMERICAS": {
+          "CAD": "CAD",
+          "MXN": "MXN",
+          "BRL": "BRL"
+        },
+        "APAC": {
+          "AUD": "AUD",
+          "CNY": "CNY",
+          "HKD": "HKD",
+          "SGD": "SGD",
+          "KRW": "KRW",
+          "INR": "INR",
+          "NZD": "NZD"
+        }
+      }
+    },
+    "CampaignTypesResponse": {
+      "type": "object",
+      "example": {
+        "VIDEO": "Video",
+        "DISPLAY": "Display",
+        "SOCIAL": "Social",
+        "SEARCH": "Search",
+        "PROGRAMMATIC": "Programmatic",
+        "EMAIL_SMS": "Email/SMS"
+      }
+    },
+    "CampaignFormatsResponse": {
+      "type": "object",
+      "example": {
+        "DISPLAY": "Display",
+        "VIDEO": "Video",
+        "CONVO_ADS": "Convo Ads",
+        "FORMAT_4": "Type 4"
+      }
+    }
+  }
+}
